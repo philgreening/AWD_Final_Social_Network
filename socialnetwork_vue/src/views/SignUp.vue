@@ -6,21 +6,27 @@
                 <form @submit.prevent="submitForm">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Username</span>
+                            <span class="input-group-text" id="username">Username</span>
                         </div>
-                        <input type="text" class="form-control" v-model="username">
+                        <input type="text" class="form-control" placeholder="Username" v-model="username">
+                    </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="email">Email Address</span>
+                            </div>
+                        <input type="email" class="form-control" placeholder="example@email.com" v-model="email">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="password">Password</span>
                         </div>
-                        <input type="text" class="form-control" v-model="password">
+                        <input type="password" class="form-control" placeholder="Password" v-model="password">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="password2">Repeat Password</span>
                         </div>
-                        <input type="text" class="form-control" v-model="password2">
+                        <input type="password" class="form-control" placeholder="Repeat Password" v-model="password2">
                     </div>
                     <div class="alert alert-danger mb-3" v-if="errors.length">
                         <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
