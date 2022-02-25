@@ -33,7 +33,7 @@ export default {
         return {
             posts: [],
             post_text: '',
-            user: '{{ request.User.user }}',
+            user: this.$store.state.user.username ,
             post_date: 'Now'
         }
     },
@@ -48,14 +48,21 @@ export default {
                 let post = {
                 'post_text': this.post_text,
                 'user': this.user,
-                'post_date': this.post_date
-                };
+                'post_date': this.post_date                
+            };
 
                 this.posts.unshift(post);
 
-              
+                axios
+                    .post("/api/v1/post/", post)
+                    .then(response => {
+                    console.log("posted")
+                })
         }
-        this.body = '';
+      
+
+        // clear post text for next post   
+        this.post_text = '';
 
         //  axios
         // .post("/api/v1/post/", post)

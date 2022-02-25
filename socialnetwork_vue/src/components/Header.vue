@@ -12,14 +12,14 @@
             <router-link to="/feed" class="nav-link"><strong>Feed</strong></router-link>
           </li>
         </ul>
-        <div v-if="this.$store.state.isauthenticated">
+        <!-- <div v-if="this.$store.state.isauthenticated"> -->
             <form @submit.prevent="logout">
                 <button type="submit" class="btn btn-danger">Log Out</button>
             </form>
-        </div>
-        <div v-else>
+        <!-- </div> -->
+        <!-- <div v-else> -->
             <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
-        </div>
+        <!-- </div> -->
         <!-- <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
         <form @submit.prevent="logout">
             <button type="submit" class="btn btn-danger">Log Out</button>
@@ -36,14 +36,24 @@ import axios from 'axios'
 
 export default {
   name: 'Header',
-      methods: {
-        logout() {
-            axios.defaults.headers.common["Authorization"] = ""
-            localStorage.removeItem("token")
-            localStorage.removeItem("username")
-            localStorage.removeItem("userid")
-            this.$store.commit('removeToken')
-            this.$router.push('/')
+    methods: {
+      async logout() {
+        // call logout api end point and send token
+        await axios
+          .post('api/v1/token/logout/')
+          .then(response => {
+            console.log('logged out')
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error))
+          })
+          // remove authentication token and data
+          axios.defaults.headers.common["Authorization"] = ""
+          localStorage.removeItem("token")
+          localStorage.removeItem('username')
+          localStorage.removeItem('userid')
+          this.$store.commit('removeToken')
+          this.$router.push('/')
         },
     },
 }
