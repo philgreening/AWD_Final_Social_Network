@@ -1,25 +1,32 @@
 <template>
-  <div id="wrapper">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="container-fluid">
-        <router-link to="/" class="navbar-brand"><strong>Social Network</strong></router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcollapse" aria-controls="navcollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-      <div class="collapse navbar-collapse" id="navcollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item ">
-            <router-link to="/feed" class="nav-link"><strong>Feed</strong></router-link>
-          </li>
-        </ul>
-        <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
-        </div>
-      </div>
-    </nav>
+  <div id="wrapper">    
+    <pageHeader></pageHeader>
     <router-view/>
   </div>
 </template>
+
+<script>
+  import Header from '@/components/Header.vue';
+  import axios from 'axios'
+
+  export default {
+    name:'App',
+    components: {
+        pageHeader: Header,
+    },
+    beforeCreate() {
+      this.$store.commit('initializeStore')
+
+      const token = this.$store.state.token
+
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = "Token " + token
+      } else {
+       axios.defaults.headers.common['Authorization'] = ""
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
 @import '../node_modules/bootstrap'

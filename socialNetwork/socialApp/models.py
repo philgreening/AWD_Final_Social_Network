@@ -17,9 +17,12 @@ class UserProfile(models.Model):
 
 class Posts(models.Model):
     postId = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name='posts', on_delete=models.DO_NOTHING)
     post_date = models.DateField(auto_now_add=True)
     post_text = models.CharField(max_length=250)
     likes = models.IntegerField(null=True)
-    images = models.ImageField(upload_to='post_images')
+    images = models.ImageField(upload_to='post_images', blank=True)
+
+    def __str__(self):
+        return self.user.username
 
