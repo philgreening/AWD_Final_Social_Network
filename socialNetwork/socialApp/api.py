@@ -26,6 +26,9 @@ class PostDetail(mixins.CreateModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class PostList(generics.ListAPIView):
+class PostList(generics.ListAPIView, mixins.CreateModelMixin):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)

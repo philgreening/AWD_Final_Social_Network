@@ -10,9 +10,9 @@
   import axios from 'axios'
 
   export default {
-    name:'App',
+    name: 'App',
     components: {
-        pageHeader: Header,
+      pageHeader: Header,
     },
     beforeCreate() {
       this.$store.commit('initializeStore')
@@ -22,7 +22,7 @@
       if (token) {
         axios.defaults.headers.common['Authorization'] = "Token " + token
       } else {
-       axios.defaults.headers.common['Authorization'] = ""
+        axios.defaults.headers.common['Authorization'] = ""
       }
     }
   }

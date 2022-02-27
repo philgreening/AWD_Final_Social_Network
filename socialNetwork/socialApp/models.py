@@ -16,7 +16,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Posts(models.Model):
-    postId = models.AutoField(primary_key=True)
+    # postId = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, related_name='posts', on_delete=models.DO_NOTHING)
     post_date = models.DateField(auto_now_add=True)
     post_text = models.CharField(max_length=250)
