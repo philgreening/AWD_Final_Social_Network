@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework import mixins
 
 
+
 class PostDetail(mixins.CreateModelMixin,
                  mixins.RetrieveModelMixin,
                  mixins.UpdateModelMixin,
@@ -26,9 +27,16 @@ class PostDetail(mixins.CreateModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class PostList(generics.ListAPIView, mixins.CreateModelMixin):
+class PostList(generics.ListCreateAPIView):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+class UserProfileList(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)

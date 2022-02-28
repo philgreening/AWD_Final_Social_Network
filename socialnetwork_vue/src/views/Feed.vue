@@ -51,6 +51,13 @@ export default {
   },
   mounted() {
     document.title = 'Feed | Social Network'
+    axios
+      .get("/api/v1/posts/")
+      .then(response =>{
+        console.log(response);
+        this.posts = response.data
+      })
+
   },
   methods: {
     submitPost() {

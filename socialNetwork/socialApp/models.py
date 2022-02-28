@@ -11,6 +11,7 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=200, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images', blank=True)
     followers = models.ManyToManyField(User, blank=True, related_name='followers')
+    follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)
 
     def __str__(self):
         return self.user.username

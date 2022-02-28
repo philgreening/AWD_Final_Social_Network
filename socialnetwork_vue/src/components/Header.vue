@@ -11,6 +11,9 @@
           <li class="nav-item ">
             <router-link to="/feed" class="nav-link"><strong>Feed</strong></router-link>
           </li>
+          <li class="nav-item ">
+            <router-link to="/profile" class="nav-link"><strong>My Profile</strong></router-link>
+          </li>
         </ul>
         <!-- <div v-if="this.$store.state.isauthenticated"> -->
             <form @submit.prevent="logout">

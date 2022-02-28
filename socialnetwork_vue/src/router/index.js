@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import Feed from '../views/Feed.vue'
+import UserProfile from '../views/UserProfile.vue'
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     path: '/feed',
     name: 'Feed',
     component: Feed
+  },
+  {
+    path: '/profile',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 

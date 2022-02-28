@@ -10,3 +10,14 @@ class PostsSerializer(serializers.ModelSerializer):
         model = Posts
         fields = [ 'user', 'post_date', 'post_text', 'likes', 'images']
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(queryset= User.objects.all(), slug_field='username')
+
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'first_name', 'last_name', 'bio', 'profile_image', 'followers', 'follows']
+        user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+   
+
+
+
