@@ -16,7 +16,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user', 'first_name', 'last_name', 'bio', 'profile_image', 'followers', 'follows']
-        user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
    
 
 

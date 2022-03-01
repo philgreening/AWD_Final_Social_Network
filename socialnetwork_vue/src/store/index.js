@@ -5,7 +5,7 @@ export default createStore({
     isAuthenticated: false,
     token: '',
     user:{
-      id: 0,
+      id: '',
       username: ''
     }
   },

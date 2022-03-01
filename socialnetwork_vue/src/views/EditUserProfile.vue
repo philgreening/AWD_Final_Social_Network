@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-4 m-4">
-        <h1 class="text-center p-4">{{ user }} Create Profile</h1>
+        <h1 class="text-center p-4">{{ user }} Edit Profile</h1>
         <form @submit.prevent="submitForm">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="firstname">First Name</span>
             </div>
-            <input type="text" class="form-control" placeholder="First Name" v-model="first_name">
+            <input type="text" class="form-control" placeholder="First Name"  v-model="first_name">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -48,7 +48,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'UserProfile',
+  name: 'EditUserProfile',
   data() {
     return {
       userid: this.$store.state.user.id,
@@ -61,13 +61,16 @@ export default {
     }
   },
     mounted() {
-    document.title = 'Create User Profile | Social Network'
-    // axios
-    //   .get("/api/v1/profiles/")
-    //   .then(response =>{
-    //     console.log(response);
-    //     this.profile = response.data
-    //   })
+    document.title = 'Edit User Profile | Social Network'
+
+    //get values from api and populate form
+    axios
+      .get("/api/v1/profile/" + this.userid)
+      .then(response =>{
+        this.first_name = response.data.first_name;
+        this.last_name = response.data.last_name;
+        this.bio = response.data.bio;
+      })
 
   },
   methods: {
@@ -79,10 +82,10 @@ export default {
         this.errors.push('Please enter your first name')
       }
       if (this.first_name === '') {
-        this.errors.push('Please enter your first name')
+        this.errors.push('Please enter your last name')
       }
       if (this.last_name === '') {
-        this.errors.push('Please eter your surmane')
+        this.errors.push('Please enter your surmane')
       }
         if (!this.errors.length) {  
         const formData = {
@@ -93,10 +96,10 @@ export default {
         }
         
         axios
-          .post("api/v1/profile/" + this.userid, formData)
+          .put("api/v1/profile/" + this.userid, formData)
           .then(Response => {
-            // this.success = "Profile created"
-            this.$router.push('/feed')
+            this.success = "Profile updated"
+            this.$router.push('#')
           })
           .catch(error => {
             if (error.response) {
