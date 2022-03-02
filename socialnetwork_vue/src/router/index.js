@@ -37,12 +37,12 @@ const routes = [
     component: Feed
   },
   {
-    path: '/profile',
+    path: '/create-profile',
     name: 'UserProfile',
     component: UserProfile
   },
   {
-    path: '/edit-profile/',
+    path: '/profile/',
     name: 'EditUserProfile',
     component: EditUserProfile
   }

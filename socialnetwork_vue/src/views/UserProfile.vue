@@ -31,9 +31,9 @@
           <div class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div>
-          <div class="alert alert-success mb-3" v-if="success.length">
+          <!-- <div class="alert alert-success mb-3" v-if="success.length">
             <p class="text-center" >{{ success }}</p>
-          </div>
+          </div> -->
           <button type="submit" class="btn btn-primary pull-left">Submit</button>
 
           <!-- <hr>
@@ -51,8 +51,8 @@ export default {
   name: 'UserProfile',
   data() {
     return {
-      userid: this.$store.state.user.id,
-      user: this.$store.state.user.username,
+      userid: localStorage.username,
+      user: localStorage.username,
       first_name: '',
       last_name: '',
       bio: '',
@@ -62,13 +62,6 @@ export default {
   },
     mounted() {
     document.title = 'Create User Profile | Social Network'
-    // axios
-    //   .get("/api/v1/profiles/")
-    //   .then(response =>{
-    //     console.log(response);
-    //     this.profile = response.data
-    //   })
-
   },
   methods: {
     submitForm() {
@@ -93,10 +86,11 @@ export default {
         }
         
         axios
-          .post("api/v1/profile/" + this.userid, formData)
+          .post("api/v1/profile/" + this.user, formData)
           .then(Response => {
             // this.success = "Profile created"
-            this.$router.push('/feed')
+            localStorage.removeItem('username')
+            this.$router.push('/log-in')
           })
           .catch(error => {
             if (error.response) {

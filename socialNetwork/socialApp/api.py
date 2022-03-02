@@ -34,9 +34,12 @@ class PostList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-class UserProfileDetail(generics.RetrieveUpdateAPIView):
+class UserProfileDetail(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    lookup_field = 'user__username'
+
+
 
 class UserProfileList(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()

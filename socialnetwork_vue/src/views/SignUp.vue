@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       username: '',
+      email:'',
       password: '',
       password2: '',
       errors: []
@@ -71,12 +72,14 @@ export default {
       if (!this.errors.length) {
         const formData = {
           username: this.username,
-          password: this.password
+          password: this.password,
+          email: this.email
         }
         axios
           .post("/api/v1/users/", formData)
           .then(Response => {
-            this.$router.push('/profile')
+            localStorage.setItem('username', this.username)
+            this.$router.push('/create-profile')
           })
           .catch(error => {
             if (error.response) {

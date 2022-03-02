@@ -51,7 +51,7 @@ export default {
   name: 'EditUserProfile',
   data() {
     return {
-      userid: this.$store.state.user.id,
+      // userid: this.$store.state.user.id,
       user: this.$store.state.user.username,
       first_name: '',
       last_name: '',
@@ -60,17 +60,22 @@ export default {
       errors: []
     }
   },
-    mounted() {
+  mounted() {
     document.title = 'Edit User Profile | Social Network'
 
     //get values from api and populate form
     axios
-      .get("/api/v1/profile/" + this.userid)
-      .then(response =>{
+      .get("/api/v1/profile/" + this.user)
+      .then(response => {
+        console.log(response)
         this.first_name = response.data.first_name;
         this.last_name = response.data.last_name;
         this.bio = response.data.bio;
       })
+      .catch(error => {
+        console.log(error)
+      })
+
 
   },
   methods: {
@@ -87,34 +92,34 @@ export default {
       if (this.last_name === '') {
         this.errors.push('Please enter your surmane')
       }
-        if (!this.errors.length) {  
-        const formData = {
-          user: this.user,
-          first_name: this.first_name,
-          last_name: this.last_name,
-          bio: this.bio,
-        }
-        
-        axios
-          .put("api/v1/profile/" + this.userid, formData)
-          .then(Response => {
-            this.success = "Profile updated"
-            this.$router.push('#')
-          })
-          .catch(error => {
-            if (error.response) {
-              for (const property in error.response.data) {
-                this.errors.push(`${property}: ${error.response.data[property]}`)
-              }
-              console.log(JSON.stringify(error.response.data))
-            } else if (error.message) {
-              this.errors.push('Something went wrong. Please try again')
-
-              console.log(JSON.stringify(error))
-            }
-          })
+      if (!this.errors.length) {  
+      const formData = {
+        user: this.user,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        bio: this.bio,
       }
+
+      axios
+        .put("api/v1/profile/" + this.user, formData)
+        .then(Response => {
+          this.success = "Profile updated"
+          this.$router.push('#')
+        })
+        .catch(error => {
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${property}: ${error.response.data[property]}`)
+            }
+            console.log(JSON.stringify(error.response.data))
+          } else if (error.message) {
+            this.errors.push('Something went wrong. Please try again')
+
+            console.log(JSON.stringify(error))
+          }
+        })
     }
+  }
   }
 }
 </script>
