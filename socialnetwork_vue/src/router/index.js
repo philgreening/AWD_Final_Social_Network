@@ -6,6 +6,8 @@ import Feed from '../views/Feed.vue'
 import UserProfile from '../views/UserProfile.vue'
 import EditUserProfile from '../views/EditUserProfile.vue'
 import Search from '../views/Search.vue'
+import UserFeed from '../views/UserFeed.vue'
+
 
 
 const routes = [
@@ -23,22 +25,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/sign-up',
+    path: '/sign-up/',
     name: 'SignUp',
     component: SignUp
   },
   {
-    path: '/log-in',
+    path: '/log-in/',
     name: 'LogIn',
     component: LogIn
   },
   {
-    path: '/feed',
+    path: '/feed/',
     name: 'Feed',
     component: Feed
   },
   {
-    path: '/create-profile',
+    path: '/create-profile/',
     name: 'UserProfile',
     component: UserProfile
   },
@@ -48,9 +50,14 @@ const routes = [
     component: EditUserProfile
   },
   {
-    path: '/search',
+    path: '/search/',
     name: 'Search',
     component: Search
+  },
+  {
+    path: '/user-feed/:user',
+    name: 'UserFeed',
+    component: UserFeed
   }
 
 ]

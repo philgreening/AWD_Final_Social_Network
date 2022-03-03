@@ -1,11 +1,17 @@
 <template>
-<div>
-        <div v-for="user in users" v-bind:key="user">
-            <h2>{{ user.user }}</h2>
-        </div>
+  <div class="container p-4">
+    <row>
+      <div class="col-12">
+      <div v-for="user in users" v-bind:key="user">
+        <router-link :to="{ name: 'UserFeed', params: {user: user.user } }">
+          <p class="h2">{{ user.user }}</p>
+        </router-link>
+      </div>
+      </div>
+    </row>
 
-        
-</div>
+
+  </div>
 </template>
 
 <script>
