@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/v1/posts/', api.PostList.as_view(), name='posts'),
     path('api/v1/profiles/', api.UserProfileList.as_view(), name='profiles'),
     path('api/v1/profile/<user__username>', api.UserProfileDetail.as_view(), name='profile'),
+    path('api/v1/search/', api.SearchUsersView.as_view(), name='search'),
 ]

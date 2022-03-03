@@ -5,6 +5,7 @@ import LogIn from '../views/LogIn.vue'
 import Feed from '../views/Feed.vue'
 import UserProfile from '../views/UserProfile.vue'
 import EditUserProfile from '../views/EditUserProfile.vue'
+import Search from '../views/Search.vue'
 
 
 const routes = [
@@ -45,7 +46,13 @@ const routes = [
     path: '/profile/',
     name: 'EditUserProfile',
     component: EditUserProfile
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
   }
+
 ]
 
 const router = createRouter({

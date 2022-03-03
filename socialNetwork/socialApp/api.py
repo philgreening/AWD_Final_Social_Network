@@ -1,5 +1,6 @@
 from .models import *
 from .serializers import *
+from django.db.models import Q
 
 from rest_framework import generics
 from rest_framework import mixins
@@ -40,10 +41,32 @@ class UserProfileDetail(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     lookup_field = 'user__username'
 
 
-
 class UserProfileList(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
     # def post(self, request, *args, **kwargs):
     #     return self.create(request, *args, **kwargs)
+
+class SearchUsersView(generics.ListCreateAPIView):
+    model = UserProfile
+    serializer_class = UserProfileSerializer
+
+   
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        user_list = UserProfile.objects.filter(
+            Q(user__username__icontains=query)
+        )
+        return user_list
+
+# @api_view(['POST'])
+# def search(request):
+#     query = request.data.get('query', '')
+
+#     if query:
+#         products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+#         serializer = ProductSerializer(products, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response({"products": []})

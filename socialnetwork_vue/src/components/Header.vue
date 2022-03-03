@@ -28,6 +28,16 @@
             <button type="submit" class="btn btn-danger">Log Out</button>
         </form> -->
         <!-- <router-link to="/" class="btn btn-danger"><strong>Log Out</strong></router-link> -->
+        <form action="/search" method="get" id="search-form">
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" placeholder="Search " required>
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit" form="search-form">
+                    <!-- <i class="fa fa-search"></i> -->Search
+                    </button>
+                </div>
+            </div>
+        </form>
         </div>
       </div>
     </nav>
