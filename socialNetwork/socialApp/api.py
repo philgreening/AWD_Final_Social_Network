@@ -59,14 +59,3 @@ class SearchUsersView(generics.ListCreateAPIView):
             Q(user__username__icontains=query)
         )
         return user_list
-
-# @api_view(['POST'])
-# def search(request):
-#     query = request.data.get('query', '')
-
-#     if query:
-#         products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
-#         serializer = ProductSerializer(products, many=True)
-#         return Response(serializer.data)
-#     else:
-#         return Response({"products": []})

@@ -10,8 +10,8 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=50, blank=False, null=False)
     bio = models.TextField(max_length=200, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images', blank=True, null=True)
-    followers = models.ManyToManyField(User, blank=True, related_name='followers')
-    follows = models.ManyToManyField('self', blank = True, related_name='followed_by', symmetrical=False)
+    followed_by = models.ManyToManyField(User, blank=True, related_name='followers')
+    following = models.ManyToManyField('self', blank = True, related_name='follows', symmetrical=False)
 
     def __str__(self):
         return self.user.username
