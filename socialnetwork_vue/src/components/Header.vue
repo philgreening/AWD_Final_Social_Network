@@ -9,13 +9,17 @@
 
       <div class="collapse navbar-collapse" id="navcollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item ">
-            <router-link to="/feed" class="nav-link"><strong>Feed</strong></router-link>
+          <li class="nav-item mx-2">
+            <router-link to="/feed" class="nav-link"><strong>My Feed</strong></router-link>
           </li>
-          <li class="nav-item ">
-            <router-link to="/profile" class="nav-link"><strong>My Profile</strong></router-link>
+           <li class="nav-item mx-2">
+            <router-link to="/my-profile" class="nav-link"><strong>My Profile</strong></router-link>
+          </li>
+          <li class="nav-item mx-2">
+            <router-link to="/profile" class="nav-link"><strong>Edit Profile</strong></router-link>
           </li>
         </ul>
+      
         <!-- <div v-if="this.$store.state.isauthenticated"> -->
 
         <!-- </div> -->
@@ -26,8 +30,8 @@
             <button type="submit" class="btn btn-danger">Log Out</button>
         </form> -->
         <!-- <router-link to="/" class="btn btn-danger"><strong>Log Out</strong></router-link> -->
-        <form action="/search" method="get" id="search-form">
-          <div class="input-group">
+        <form action="/search" method="get" id="search-form" >
+          <div class="input-group mx-auto ">
             <input type="text" class="form-control" name="q" placeholder="Search " required>
             <div class="input-group-append">
               <button class="btn btn-success" type="submit" form="search-form">
@@ -36,19 +40,20 @@
             </div>
           </div>
         </form>
-        <div class="navbar-end">
+        </div>
+
+        <div class="navbar-end mx-2">
           <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
         </div>
 
 
-        <div class="navbar-end">
+        <div class="navbar-end mx-2">
           <form @submit.prevent="logout">
             <button type="submit" class="btn btn-danger">Log Out</button>
           </form>
         </div>
 
 
-      </div>
     </div>
   </nav>
 </template>

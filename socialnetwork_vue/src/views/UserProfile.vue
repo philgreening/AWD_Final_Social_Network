@@ -64,7 +64,7 @@ export default {
     document.title = 'Create User Profile | Social Network'
   },
   methods: {
-    submitForm() {
+ async submitForm() {
       this.errors = []
       console.log(this.errors);
 
@@ -85,8 +85,8 @@ export default {
           bio: this.bio,
         }
         
-        axios
-          .post("api/v1/profile/" + this.user, formData)
+       await axios
+          .post("api/v1/updateprofile/" + this.user, formData)
           .then(Response => {
             // this.success = "Profile created"
             localStorage.removeItem('username')

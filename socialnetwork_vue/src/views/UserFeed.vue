@@ -2,26 +2,27 @@
   <div class="container p-4">
     <div class="row">
       <div class="col-12">
-        <div class="wrapper ">
+        <div class="border my-2 p-4 ">
           <p class="h2">@{{ user }}</p>
           <p class="h2">{{ bio }}</p>
+          <button v-on:click="followUser" type="button" class="btn btn-info text-white">Follow</button>
         </div>
 
-      <div class="post" v-for="post in posts" v-bind:key="post">
-        <div v-if="post.user == this.user">
-          <p></p>
-          <div class="card border-info mb-3">
-            <div class="card-header">
-              <p> @{{ post.user }}</p>
-            </div>
-            <div class="card-body text-info">
-              <p class="card-text">{{ post.post_text }}</p>
-              <p class="card-text h6">{{ post.post_date }}</p>
+        <div class="post" v-for="post in posts" v-bind:key="post">
+          <div v-if="post.user == this.user">
+            <p></p>
+            <div class="card border-info mb-3">
+              <div class="card-header">
+                <p> @{{ post.user }}</p>
+              </div>
+              <div class="card-body text-info">
+                <p class="card-text">{{ post.post_text }}</p>
+                <p class="card-text h6">{{ post.post_date }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-          </div>
     </div>
   </div>
 </template>
@@ -36,11 +37,14 @@ export default {
       posts: [],
       post_text: '',
       user: '',
+      userid: '',
       bio: '',
       post_date: 'Now',
+      loggedInUser: this.$store.state.user.username,
+      loggedInUserId: this.$store.state.user.id,
     }
   },
-  mounted() {
+  async mounted() {
     document.title = 'User Feed | Social Network'
 
     //get username from current url by taking the string from the last /
@@ -49,18 +53,19 @@ export default {
     this.user = lastItem;
     console.log(this.user, " :current user");
 
-    axios
+    await axios
       // retrieve posts from api
       .get("/api/v1/posts/")
       .then(response => {
-        console.log(response);
-        this.posts = response.data
+        // console.log(response);
+        this.posts = response.data;
       })
-    axios
+
+    await axios
       // retrieve user details from api
       .get("/api/v1/profile/" + this.user)
       .then(response => {
-        console.log(response)
+        // console.log(response)
         this.bio = response.data.bio;
       })
       .catch(error => {
@@ -69,8 +74,40 @@ export default {
 
 
 
+
   },
   methods: {
+    async followUser() {
+      let follows = {
+        'following': this.user
+      }
+
+      let followed_by = {
+        'followed_by': this.loggedInUserId
+      }
+
+
+      await axios
+        .patch("/api/v1/profile/" + this.loggedInUser, follows)
+        .then(response => {
+          console.log(response, ": line 91 userfeed")
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
+      await axios
+        .patch("/api/v1/profile/" + this.user, followed_by)
+        .then(response => {
+        // this.$router.push({name:Class, params: { id: classID}})
+
+            console.log(response, ": line 100 userfeed")
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
     //     submitPost() {
     //       console.log('submitPost');
 

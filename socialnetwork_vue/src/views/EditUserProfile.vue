@@ -65,7 +65,7 @@ export default {
 
     //get values from api and populate form
     axios
-      .get("/api/v1/profile/" + this.user)
+      .get("/api/v1/updateprofile/" + this.user)
       .then(response => {
         console.log(response)
         this.first_name = response.data.first_name;
@@ -101,7 +101,7 @@ export default {
       }
 
       axios
-        .put("api/v1/profile/" + this.user, formData)
+        .put("api/v1/updateprofile/" + this.user, formData)
         .then(Response => {
           this.success = "Profile updated"
           this.$router.push('#')

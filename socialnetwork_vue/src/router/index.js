@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+// import HomeView from '../views/HomeView.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import Feed from '../views/Feed.vue'
@@ -7,15 +7,18 @@ import UserProfile from '../views/UserProfile.vue'
 import EditUserProfile from '../views/EditUserProfile.vue'
 import Search from '../views/Search.vue'
 import UserFeed from '../views/UserFeed.vue'
+import MyFeed from '../views/MyFeed.vue'
+import MyProfile from '../views/MyProfile.vue'
+
 
 
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: HomeView
+  // },
   {
     path: '/about',
     name: 'about',
@@ -35,7 +38,7 @@ const routes = [
     component: LogIn
   },
   {
-    path: '/feed/',
+    path: '/',
     name: 'Feed',
     component: Feed
   },
@@ -58,7 +61,19 @@ const routes = [
     path: '/user-feed/:user',
     name: 'UserFeed',
     component: UserFeed
+  },
+  {
+    path: '/feed/',
+    name: 'MyFeed',
+    component: MyFeed
+  },
+  {
+    path: '/my-profile/',
+    name: 'MyProfile',
+    component: MyProfile
   }
+
+
 
 ]
 
