@@ -10,5 +10,4 @@ urlpatterns = [
     path('api/v1/updateprofile/<user__username>', api.UserProfileDetailUpdate.as_view(), name='updateProfile'),
     path('api/v1/search/', api.SearchUsersView.as_view(), name='search'),
     path('api/v1/follows/', api.PostListFollows.as_view(), name='follows'),
-
 ]

@@ -1,6 +1,7 @@
 from pyparsing import FollowedBy
 from .models import *
 from .serializers import *
+from .tasks import *
 from django.db.models import Q
 
 from rest_framework import generics
@@ -9,6 +10,7 @@ from rest_framework import mixins
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.parsers import FormParser, FileUploadParser, MultiPartParser
 
 
 class PostDetail(mixins.CreateModelMixin,
@@ -58,19 +60,30 @@ class UserProfileDetail(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     lookup_field = 'user__username'
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+
 
     # def patch(self):
     #     user = self.kwargs.get('user__username')
     #     profile = UserProfile.objects.patch(user=user)
     #     print("profile",profile)
     #     return profile
-     
-
+   
 
 class UserProfileDetailUpdate(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UpdateProfileSerializer
     lookup_field = 'user__username'
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+
+
+    def perform_update(self, serializer):
+        record = serializer.save()
+        make_thumbnail.delay(record.pk)
+
+    def perform_create(self, serializer):
+        record = serializer.save()
+        make_thumbnail.delay(record.pk)
 
     
     # lookup_field = 'user__username'

@@ -2,13 +2,17 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-4 m-4">
-        <h1 class="text-center p-4">{{ user }} Edit Profile</h1>
+        <div class="text-center my-2">
+          <p class="h1">@{{ user }}</p>
+          <p class="h3">Edit Profile</p>
+          <img v-bind:src=profile_image>
+        </div>
         <form @submit.prevent="submitForm">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="firstname">First Name</span>
             </div>
-            <input type="text" class="form-control" placeholder="First Name"  v-model="first_name">
+            <input type="text" class="form-control" placeholder="First Name" v-model="first_name">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -24,15 +28,15 @@
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="profileimage">Profile Image</span>
+              <span class="input-group-text" id="profileimage">Profile Image </span>
             </div>
-            <input type="file" class="form-control">
+            <input type="file" class="form-control" @change="onFileUpload" >
           </div>
           <div class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div>
           <div class="alert alert-success mb-3" v-if="success.length">
-            <p class="text-center" >{{ success }}</p>
+            <p class="text-center">{{ success }}</p>
           </div>
           <button type="submit" class="btn btn-primary pull-left">Submit</button>
 
@@ -56,6 +60,8 @@ export default {
       first_name: '',
       last_name: '',
       bio: '',
+      profile_image: '',
+      new_profile_image: '',
       success: '',
       errors: []
     }
@@ -71,6 +77,8 @@ export default {
         this.first_name = response.data.first_name;
         this.last_name = response.data.last_name;
         this.bio = response.data.bio;
+        this.profile_image = response.data.profile_image;
+        console.log(this.profile_image, 'Profile image');
       })
       .catch(error => {
         console.log(error)
@@ -79,6 +87,10 @@ export default {
 
   },
   methods: {
+    onFileUpload(img) {
+      // this.profile_image = img.target.files[0];
+      this.new_profile_image = img.target.files[0];
+    },
     submitForm() {
       this.errors = []
       console.log(this.errors);
@@ -93,18 +105,21 @@ export default {
         this.errors.push('Please enter your surmane')
       }
       if (!this.errors.length) {  
-      const formData = {
-        user: this.user,
-        first_name: this.first_name,
-        last_name: this.last_name,
-        bio: this.bio,
-      }
+       // create and append data collected from form
+        const formData = new FormData();
+
+        formData.append('user', this.user)
+        formData.append('first_name', this.first_name)
+        formData.append('last_name', this.last_name)
+        formData.append('bio', this.bio)
+        formData.append('profile_image', this.new_profile_image)
 
       axios
         .put("api/v1/updateprofile/" + this.user, formData)
         .then(Response => {
           this.success = "Profile updated"
           this.$router.push('#')
+          setTimeout(function(){ window.location.reload()}, 2000);
         })
         .catch(error => {
           if (error.response) {

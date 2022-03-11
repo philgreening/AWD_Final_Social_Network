@@ -31,17 +31,16 @@
 import axios from 'axios'
 
 export default {
-  name: 'Feed',
+  name: 'Home',
   data() {
     return {
       posts: [],
       post_text: '',
-      user: this.$store.state.user.username,
       post_date: 'Now'
     }
   },
   async mounted() {
-    document.title = 'Feed | Social Network'
+    document.title = 'Home: latest posts | Social Network'
     await axios
       .get("/api/v1/posts/")
       .then(response =>{
@@ -50,34 +49,6 @@ export default {
       })
 
   },
-  methods: {
-    async submitPost() {
-      console.log('submitPost');
 
-      //submit post if there is an entry
-      if (this.post_text.length > 0) {
-        let post_data = {
-          'post_text': this.post_text,
-          'user': this.user,
-          'post_date': this.post_date
-        };
-        //sent post to the top of the stack
-        this.posts.unshift(post_data);
-
-        //send post data to api end point
-       await axios
-          .post("/api/v1/posts/", post_data)
-          .then(response => {
-            // const token = response.data.auth_token
-            // axios.defaults.headers.common["Authorization"] = "Token " + token
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-      // clear post text for next post   
-      this.post_text = '';
-    }
-  }
 }
 </script>

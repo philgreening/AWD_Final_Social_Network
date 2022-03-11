@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
-import Feed from '../views/Feed.vue'
+import Home from '../views/Home.vue'
 import UserProfile from '../views/UserProfile.vue'
 import EditUserProfile from '../views/EditUserProfile.vue'
 import Search from '../views/Search.vue'
@@ -39,8 +39,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Feed',
-    component: Feed
+    name: 'Home',
+    component: Home
   },
   {
     path: '/create-profile/',

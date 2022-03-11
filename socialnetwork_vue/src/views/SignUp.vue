@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-4 m-4">
-        <h1 class="text-center p-4">Sign Up</h1>
+        <p class="text-center h1 p-3">Sign Up</p>
         <form @submit.prevent="submitForm">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
