@@ -9,6 +9,8 @@ import Search from '../views/Search.vue'
 import UserFeed from '../views/UserFeed.vue'
 import MyFeed from '../views/MyFeed.vue'
 import MyProfile from '../views/MyProfile.vue'
+import Chat from '../views/Chat.vue'
+import ChatRoom from '../views/ChatRoom.vue'
 
 
 
@@ -71,7 +73,17 @@ const routes = [
     path: '/my-profile/',
     name: 'MyProfile',
     component: MyProfile
-  }
+  },
+  {
+    path: '/chat/',
+    name: 'Chat',
+    component: Chat
+  },
+  {
+    path: '/chat/:room',
+    name: 'ChatRoom',
+    component: ChatRoom
+  },
 
 
 

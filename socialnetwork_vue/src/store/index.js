@@ -7,7 +7,9 @@ export default createStore({
     user:{
       id: '',
       username: ''
-    }
+    },
+    room: ''
+    
   },
   getters: {
   },
@@ -19,11 +21,13 @@ export default createStore({
           state.isAuthenticated = true
           state.user.id = localStorage.getItem('userid')
           state.user.username = localStorage.getItem('username')
+          state.room = null
       } else {
           state.token = ''
           state.isAuthenticated = false
           state.user.id = 0
           state.user.username = ''
+          state.room = ''
       } 
     },
     setToken(state, token) {
@@ -36,6 +40,9 @@ export default createStore({
     },
     setUser(state, user) {
       state.user = user
+    },
+    setChatRoom(state, room){
+      state.room = room
     }
   },
   actions: {

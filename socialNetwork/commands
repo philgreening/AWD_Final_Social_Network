@@ -1,6 +1,11 @@
 Start celery
-celery --app=image_store.celery:app worker --loglevel=INFO --pidfile=celery.pid
+cd AWD_Final/socialNetwork
+celery --app=socialNetwork.celery:app worker --loglevel=INFO --pidfile=celery.pid
 
-cd AWD_Final/socialNetwork/cd AWD_Final/socialNetwork/
+cd AWD_Final/socialNetwork/
+python manage.py runserver
+
 cd AWD_Final/socialnetwork_vue/
+npm run serve              
+
 
