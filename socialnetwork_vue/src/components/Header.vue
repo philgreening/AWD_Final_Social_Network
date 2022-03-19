@@ -15,6 +15,9 @@
            <li class="nav-item mx-2">
             <router-link to="/my-profile" class="nav-link"><strong>My Profile</strong></router-link>
           </li>
+            <li class="nav-item mx-2">
+            <router-link to="/chat" class="nav-link"><strong>Chat</strong></router-link>
+          </li>
           <li class="nav-item mx-2">
             <router-link to="/profile" class="nav-link"><strong>Edit Profile</strong></router-link>
           </li>
