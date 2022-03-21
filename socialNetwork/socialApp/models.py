@@ -26,6 +26,7 @@ class Posts(models.Model):
     likes = models.IntegerField(null=True)
     images = models.ImageField(upload_to='post_images', blank=True)
 
+
     def __str__(self):
         return str(self.user.username)
     
