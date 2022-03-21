@@ -55,20 +55,21 @@
         <p class="h1 text-center">Following</p>
 
         <div class="shadow p-2 my-4 bg-white" v-for="follow in following" v-bind:key="follow">
-            <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.user } }" >
+          <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.user } }">
 
-                            <p class="h3">
+            <p class="h3">
 
-          <template v-if="!follow.profile_image">
-            <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+              <template v-if="!follow.profile_image">
+                <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
 
 
-          </template>
-          <template v-else>
-            <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
+              </template>
+              <template v-else>
+                <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
 
-          </template>
-          @{{follow.user}}</p>
+              </template>
+              @{{follow.user}}
+              </p>
 
           </router-link>
 

@@ -3,15 +3,13 @@
   <div class="container my-3 p-4">
     <div class="row">
       <div class="col-2 shadow bg-white p-4 offset-md-1">
-        <!-- <input id="room-name-input" ref="room_input" @keyup.enter="keyUp" type="text" size="100"><br> -->
         <label class="h5" for="gen_btn">General: </label>
         <button  class="btn btn-primary m-2" value="General" name="gen_btn" @click="enterRoom($event)">Enter</button><br>
         <label class="h5" for="gen_btn2">Room 2: </label>
-        <button class="btn btn-primary m-2" value="Room 2" name="gen_btn2" @click="enterRoom($event)">Enter</button><br>
+        <button class="btn btn-primary m-2" value="Room_2" name="gen_btn2" @click="enterRoom($event)">Enter</button><br>
         <label class="h5" for="gen_btn3">Room 3: </label>
-        <button class="btn btn-primary m-2" value="Room 3" name="gen_btn3" @click="enterRoom($event)">Enter</button>
+        <button class="btn btn-primary m-2" value="Room_3" name="gen_btn3" @click="enterRoom($event)">Enter</button>
 
-        <!-- <input id="room-name-submit" @click="getStoreRoom" type="button" value="Enter"> -->
       </div>
       <div class="col-6 shadow bg-white p-4 offset-md-1 w-50">
         <div v-if="roomName.length < 1">

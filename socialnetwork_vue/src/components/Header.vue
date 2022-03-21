@@ -38,17 +38,13 @@
       </div>
 
       <template v-if="!$store.state.isAuthenticated">
-
-
+        
         <div class="navbar-end ">
 
           <router-link to="/log-in" class="btn btn-light me-4"><strong>Log In</strong></router-link>
         </div>
       </template>
       <template v-else>
-
-
-
 
         <div class="navbar-end ">
           <form @submit.prevent="logout">

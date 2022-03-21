@@ -14,7 +14,16 @@
           </p>
           <p class="p-3">{{bio}}</p>
         </div>
-        <button v-on:click="followUser" type="button" class="btn btn-info text-white shadow mb-5">Follow</button>
+        <template v-if=" ifFollowing">
+          <button v-on:click="unfollowUser" type="button"
+            class="btn btn-danger text-white shadow mb-5">Unfollow</button>
+
+        </template>
+        <template v-else>
+          <button v-on:click="followUser" type="button" class="btn btn-info text-white shadow mb-5">Follow</button>
+
+        </template>
+
         <div class="post" v-for="post in posts" v-bind:key="post">
           <template v-if="post.user == user">
             <div class="card shadow mb-3 rounded w-50">
@@ -54,6 +63,7 @@ export default {
   data() {
     return {
       posts: [],
+      following: [],
       post_text: '',
       user: '',
       userid: '',
@@ -66,8 +76,9 @@ export default {
   },
   async mounted() {
     document.title = 'User Feed | Social Network'
+    console.log('test', this.following)
 
-        dayjs.extend(relativeTime);
+    dayjs.extend(relativeTime);
 
     //get username from current url by taking the string from the last /
     let currentURL = window.location.pathname;
@@ -94,9 +105,28 @@ export default {
       .catch(error => {
         console.log(error)
       })
+    await axios
+      // retrieve user details from api
+      .get("/api/v1/profile/" + this.loggedInUser)
+      .then(response => {
+        // console.log(response)
+        this.following = response.data.following;
+        console.log('get', this.following)
+      })
+      .catch(error => {
+        console.log(error)
+      })
 
-
-
+    // get profile picture then match picture to user in posts
+    await axios.get("/api/v1/profiles/").then((response) => {
+      for (let i = 0; i < this.posts.length; i++) {
+        for (let j = 0; j < response.data.length; j++) {
+          if (this.posts[i].user === response.data[j].user) {
+            this.posts[i].profile_image = response.data[j].profile_image;
+          }
+        }
+      }
+    });
 
   },
   methods: {
@@ -109,7 +139,6 @@ export default {
         'followed_by': this.loggedInUserId
       }
 
-
       await axios
         .patch("/api/v1/profile/" + this.loggedInUser, follows)
         .then(response => {
@@ -118,24 +147,36 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-        
+
       await axios
         .patch("/api/v1/profile/" + this.user, followed_by)
         .then(response => {
-        // this.$router.push({name:Class, params: { id: classID}})
+          // this.$router.push({name:Class, params: { id: classID}})
 
-            console.log(response, ": line 100 userfeed")
+          console.log(response, ": line 100 userfeed")
         })
         .catch((error) => {
           console.log(error);
         });
 
     },
-            formatDate(dateString) {
-            const date = dayjs(dateString);
-            return date.fromNow();
+    formatDate(dateString) {
+      const date = dayjs(dateString);
+      return date.fromNow();
+    }
+  },
+  // checks if user is in list of followers and retyurn true/false
+  computed: {
+    ifFollowing() {
+      console.log(this.user);
+      for (let i = 0; i < this.following.length; i++) {
+        if (this.following[i].user == this.user) {
+          console.log('true', this.following[i].user)
+          return true;
         }
-  }
+      }
+      return false;
+    }
     //     submitPost() {
     //       console.log('submitPost');
 
@@ -163,6 +204,7 @@ export default {
     //       // clear post text for next post   
     //       this.post_text = '';
     //     }
-  
+
+  }
 }
 </script>
