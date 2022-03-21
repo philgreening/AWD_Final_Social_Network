@@ -1,63 +1,90 @@
 <template>
   <div class="container p-4">
     <div class="row">
-      <div class="col-8">
-                    <h1>@{{user}}</h1>
-                    <p>{{bio}}</p>
+      <div class="col-6 offset-md-1">
+        <div class="shadow p-3 my-3 bg-white rounded">
+          <p class="h1">
+
+            <template v-if="!profile_image">
+              <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="75" height="75" />
+            </template>
+            <template v-else>
+              <img class="rounded-circle me-3" v-bind:src="profile_image" width="75" height="75" />
+            </template>
+            @{{user}}
+
+          </p>
+          <p class="p-3">{{bio}}</p>
+        </div>
+
+
 
         <form @submit.prevent="submitPost">
-          <div class="form-group">
-            <textarea class="form-control my-3" v-model="post_text" placeholder="Make a post"></textarea>
+          <div class="form-group ">
+            <textarea class="form-control mb-3 shadow rounded" v-model="post_text" placeholder="Make a post"></textarea>
           </div>
-          <div class="form-group mb-5">
-            <button type="submit" class="btn btn-success">Submit</button>
+          <div class="form-group mb-5 w-50">
+            <button type="submit" class="btn btn-success shadow">Submit</button>
           </div>
         </form>
 
-
-      <!-- <div class="wrapper">
         <div class="post" v-for="post in posts" v-bind:key="post">
-          <p>{{ post.user }}</p>
-          <p>{{ post.post_text }}</p>
-          <p>{{ post.post_date }}</p>
-        </div>
-      </div> -->
-        <!-- <h1 v-if="following.length === 0" >No posts to display </h1> -->
-      <!-- <div v-else> -->
-
-      <div class="post" v-for="post in posts" v-bind:key="post">
-          <div v-if="post.user == user">
-
-        <!-- <div v-for="follow in following" v-bind:key="follow">
-          <div v-if="post.user == follow.user"> -->
-
-            <div class="card border-info mb-3">
-
+          <template v-if="post.user == user">
+            <div class="card shadow mb-3 rounded ">
               <div class="card-header">
-                <p> @{{ post.user }}</p>
+                <p class="h5">
+                  <template v-if="!post.profile_image">
+                    <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+                  </template>
+                  <template v-else>
+                    <img class="rounded-circle me-3" v-bind:src="post.profile_image" width="50" height="50" />
+                  </template>
+                  @{{ post.user }}
+                  <small class="h6 text-muted">{{ formatDate(post.post_date) }}</small>
+                </p>
               </div>
-              <div class="card-body text-info">
+              <div class="card-body">
                 <p class="card-text">{{ post.post_text }}</p>
-                <p class="card-text h6">{{ post.post_date }}</p>
               </div>
             </div>
-          </div>
-              <!-- <h1 v-else>No Posts to display</h1> -->
+          </template>
         </div>
-      </div>
-          <div class="col-4">
-              <h1>Following</h1>
-                    <div v-for="follow in following" v-bind:key="follow">
-                        <h2>@{{follow.user}}</h2>
 
-    </div>
-</diV>
+      </div>
+      <div class="col-3 offset-md-1">
+        <p class="h1 text-center">Following</p>
+
+        <div class="shadow p-2 my-4 bg-white" v-for="follow in following" v-bind:key="follow">
+            <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.user } }" >
+
+                            <p class="h3">
+
+          <template v-if="!follow.profile_image">
+            <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+
+
+          </template>
+          <template v-else>
+            <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
+
+          </template>
+          @{{follow.user}}</p>
+
+          </router-link>
+
+        </div>
+      </diV>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+// Import axios to make api calls  
+import axios from 'axios';
+
+// import dependancies to format timestamp
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export default {
   name: 'MyProfile',
@@ -68,11 +95,15 @@ export default {
       user: this.$store.state.user.username,
       bio: '',
       post_date: 'Now',
-      following: []
+      following: [],
+      profile_image: null
     }
   },
  async mounted() {
     document.title = 'My Profile | Social Network'
+
+    dayjs.extend(relativeTime);
+
     console.log(this.following)
 
    
@@ -90,8 +121,31 @@ export default {
         console.log(response);
         this.bio = response.data.bio;
         this.following = response.data.following;
+        this.profile_image = response.data.profile_image;
         console.log("following: ", this.following)
       })
+
+      // get profile picture then match picture to user in posts
+      await axios.get("/api/v1/profiles/").then((response) => {
+        for (let i = 0; i < this.posts.length; i++) {
+          for (let j = 0; j < response.data.length; j++) {
+            if (this.posts[i].user === response.data[j].user) {
+              this.posts[i].profile_image = response.data[j].profile_image;
+            }
+          }
+        }
+      });
+
+        // get profile picture then match picture to following user
+      await axios.get("/api/v1/profiles/").then((response) => {
+        for (let i = 0; i < this.following.length; i++) {
+          for (let j = 0; j < response.data.length; j++) {
+            if (this.following[i].user === response.data[j].user) {
+              this.following[i].profile_image = response.data[j].profile_image;
+            }
+          }
+        }
+      });
 
   },
   methods: {
@@ -103,12 +157,12 @@ export default {
         let post_data = {
           'post_text': this.post_text,
           'user': this.user,
-          'post_date': this.post_date
+          'post_date': this.post_date,
+          'profile_image': this.profile_image
         };
         //sent post to the top of the stack
         this.posts.unshift(post_data);
 
-        //send post data to api end point
        await axios
           .post("/api/v1/posts/", post_data)
           .then(response => {
@@ -121,7 +175,11 @@ export default {
       }
       // clear post text for next post   
       this.post_text = '';
-    }
+    },
+        formatDate(dateString) {
+            const date = dayjs(dateString);
+            return date.fromNow();
+        }
   }
 }
 </script>

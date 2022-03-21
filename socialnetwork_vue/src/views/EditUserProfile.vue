@@ -5,7 +5,7 @@
         <div class="text-center my-2">
           <p class="h1">@{{ user }}</p>
           <p class="h3">Edit Profile</p>
-          <img v-bind:src=profile_image>
+          <img class="shadow rounded" v-bind:src=profile_image>
         </div>
         <form @submit.prevent="submitForm">
           <div class="input-group mb-3">
@@ -32,16 +32,13 @@
             </div>
             <input type="file" class="form-control" @change="onFileUpload" >
           </div>
-          <div class="alert alert-danger mb-3" v-if="errors.length">
+          <template class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
-          </div>
-          <div class="alert alert-success mb-3" v-if="success.length">
+          </template>
+          <template class="alert alert-success mb-3" v-if="success.length">
             <p class="text-center">{{ success }}</p>
-          </div>
+          </template>
           <button type="submit" class="btn btn-primary pull-left">Submit</button>
-
-          <!-- <hr>
-          Or <router-link to="/log-in">click here</router-link> to log in -->
         </form>
       </div>
     </div>

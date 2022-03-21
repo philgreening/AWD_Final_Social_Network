@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">    
+  <div id="container-fluid">    
     <pageHeader></pageHeader>
     <router-view/>
   </div>
@@ -29,5 +29,9 @@
 </script>
 
 <style lang="scss">
-@import '../node_modules/bootstrap'
+@import '../node_modules/bootstrap';
+body{
+  background-color:ghostwhite;
+  color:darkblue;
+}
 </style>

@@ -7,54 +7,55 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+
       <div class="collapse navbar-collapse" id="navcollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item mx-2">
-            <router-link to="/feed" class="nav-link"><strong>My Feed</strong></router-link>
-          </li>
-           <li class="nav-item mx-2">
-            <router-link to="/my-profile" class="nav-link"><strong>My Profile</strong></router-link>
-          </li>
+        <template v-if="$store.state.isAuthenticated">
+
+          <ul class="navbar-nav mr-auto">
             <li class="nav-item mx-2">
-            <router-link to="/chat" class="nav-link"><strong>Chat</strong></router-link>
-          </li>
-          <li class="nav-item mx-2">
-            <router-link to="/profile" class="nav-link"><strong>Edit Profile</strong></router-link>
-          </li>
-        </ul>
-      
-        <!-- <div v-if="this.$store.state.isauthenticated"> -->
+              <router-link to="/feed" class="nav-link"><strong>My Feed</strong></router-link>
+            </li>
+            <li class="nav-item mx-2">
+              <router-link to="/my-profile" class="nav-link"><strong>My Profile</strong></router-link>
+            </li>
+            <li class="nav-item mx-2">
+              <router-link to="/chat" class="nav-link"><strong>Chat</strong></router-link>
+            </li>
+            <li class="nav-item mx-2">
+              <router-link to="/profile" class="nav-link"><strong>Edit Profile</strong></router-link>
+            </li>
+          </ul>
 
-        <!-- </div> -->
-        <!-- <div v-else> -->
-        <!-- </div> -->
-        <!-- <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
-        <form @submit.prevent="logout">
-            <button type="submit" class="btn btn-danger">Log Out</button>
-        </form> -->
-        <!-- <router-link to="/" class="btn btn-danger"><strong>Log Out</strong></router-link> -->
-        <form action="/search" method="get" id="search-form" >
-          <div class="input-group mx-auto ">
-            <input type="text" class="form-control" name="q" placeholder="Search " required>
-            <div class="input-group-append">
-              <button class="btn btn-success" type="submit" form="search-form">
-                <!-- <i class="fa fa-search"></i> -->Search
-              </button>
+          <form action="/search" method="get" id="search-form">
+            <div class="input-group mx-5">
+              <input type="text" class="form-control" name="q" placeholder="Search" required>
+              <div class="input-group-append">
+                <button class="btn btn-success" type="submit" form="search-form">Search</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </template>
+      </div>
+
+      <template v-if="!$store.state.isAuthenticated">
+
+
+        <div class="navbar-end ">
+
+          <router-link to="/log-in" class="btn btn-light me-4"><strong>Log In</strong></router-link>
         </div>
-
-        <div class="navbar-end mx-2">
-          <router-link to="/log-in" class="btn btn-light"><strong>Log In</strong></router-link>
-        </div>
+      </template>
+      <template v-else>
 
 
-        <div class="navbar-end mx-2">
+
+
+        <div class="navbar-end ">
           <form @submit.prevent="logout">
-            <button type="submit" class="btn btn-danger">Log Out</button>
+            <button type="submit" class="btn btn-danger me-4"><strong>Log Out</strong></button>
           </form>
         </div>
+      </template>
 
 
     </div>
@@ -79,12 +80,13 @@ export default {
             console.log(JSON.stringify(error))
           })
           // remove authentication token and data
-          axios.defaults.headers.common["Authorization"] = ""
-          localStorage.removeItem("token")
-          localStorage.removeItem('username')
-          localStorage.removeItem('userid')
-          this.$store.commit('removeToken')
-          this.$router.push('/')
+          axios.defaults.headers.common["Authorization"] = "";
+          localStorage.removeItem("token");
+          localStorage.removeItem('username');
+          localStorage.removeItem('userid');
+          this.$store.commit('removeToken');
+          this.$store.state.user.username ='';
+          this.$router.push('/');
         },
     },
 }

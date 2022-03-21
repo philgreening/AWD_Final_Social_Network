@@ -1,32 +1,33 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-4 m-4">
-                <h1 class="text-center p-4">Log In</h1>
-                <form @submit.prevent="submitForm">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="username">Username</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="username" v-model="username">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="password">Password</span>
-                        </div>
-                        <input type="password" class="form-control" placeholder="Password" v-model="password">
-                    </div>
-                    <div class="alert alert-danger mb-3" v-if="errors.length">
-                        <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
-                    </div>
-                    <button type="submit" class="btn btn-primary pull-left">Log in</button>
+  <div class="container">
+    <div class="row justify-content-center">
+      <h1 class="text-center my-4">Log In</h1>
 
-                    <hr>
-                    Or <router-link to="/sign-up">click here</router-link> to sign up
-                </form>
+      <div class="col-4 shadow bg-white p-4">
+        <form @submit.prevent="submitForm">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="username">Username</span>
             </div>
-        </div>
+            <input type="text" class="form-control" placeholder="username" v-model="username">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="password">Password</span>
+            </div>
+            <input type="password" class="form-control" placeholder="Password" v-model="password">
+          </div>
+          <div class="alert alert-danger mb-3" v-if="errors.length">
+            <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
+          </div>
+          <button type="submit" class="btn btn-primary pull-left">Log in</button>
+
+          <hr>
+          Or <router-link to="/sign-up">click here</router-link> to sign up
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

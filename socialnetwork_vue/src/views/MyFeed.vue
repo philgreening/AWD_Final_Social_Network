@@ -1,53 +1,46 @@
 <template>
   <div class="container p-4">
     <div class="row">
-      <div class="col-12">
-        <form @submit.prevent="submitPost">
-          <div class="form-group">
-            <textarea class="form-control mb-3" v-model="post_text" placeholder="Make a post"></textarea>
-          </div>
-          <div class="form-group mb-5">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- <div class="wrapper">
-        <div class="post" v-for="post in posts" v-bind:key="post">
-          <p>{{ post.user }}</p>
-          <p>{{ post.post_text }}</p>
-          <p>{{ post.post_date }}</p>
-        </div>
-      </div> -->
-        <h1 v-if="following.length === 0" >No posts to display </h1>
-      <div v-else>
-
-      <div class="post" v-for="post in posts" v-bind:key="post">
-
-        <div v-for="follow in following" v-bind:key="follow">
-          <div v-if="post.user == follow.user">
-
-            <div class="card border-info mb-3">
-
-              <div class="card-header">
-                <p> @{{ post.user }}</p>
-              </div>
-              <div class="card-body text-info">
-                <p class="card-text">{{ post.post_text }}</p>
-                <p class="card-text h6">{{ post.post_date }}</p>
-              </div>
+      <p class="h1 text-center my-4">My Feed</p>
+      <div class="col-12 offset-md-3">
+        <p class="h1" v-if="following.length === 0">No posts to display </p>
+        <template v-else>
+          <div class="post" v-for="post in posts" v-bind:key="post">
+            <div v-for="follow in following" v-bind:key="follow">
+              <template v-if="post.user == follow.user">
+                <div class="card shadow mb-3 rounded w-50">
+                  <div class="card-header">
+                    <p class="h5">
+                      <template v-if="!post.profile_image">
+                        <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+                      </template>
+                      <template v-else>
+                        <img class="rounded-circle me-3" v-bind:src="post.profile_image" width="50" height="50" />
+                      </template>
+                      @{{ post.user }}
+                      <small class="h6 text-muted">{{ formatDate(post.post_date) }}</small>
+                    </p>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">{{ post.post_text }}</p>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
-              <!-- <h1 v-else>No Posts to display</h1> -->
-        </div>
+        </template>
       </div>
-</diV>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+// Import axios to make api calls  
+import axios from 'axios';
+
+// import dependancies to format timestamp
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export default {
   name: 'MyFeed',
@@ -64,7 +57,8 @@ export default {
     document.title = 'Feed | Social Network'
     console.log(this.following)
 
-   
+    dayjs.extend(relativeTime);
+
    await axios
       .get("/api/v1/posts/")
       .then(response =>{
@@ -81,6 +75,16 @@ export default {
         console.log("following: ", this.following)
       })
 
+            // get profile picture then match picture to user in posts
+      await axios.get("/api/v1/profiles/").then((response) => {
+        for (let i = 0; i < this.posts.length; i++) {
+          for (let j = 0; j < response.data.length; j++) {
+            if (this.posts[i].user === response.data[j].user) {
+              this.posts[i].profile_image = response.data[j].profile_image;
+            }
+          }
+        }
+      });
   },
   methods: {
    async submitPost() {
@@ -109,7 +113,11 @@ export default {
       }
       // clear post text for next post   
       this.post_text = '';
-    }
+    },
+        formatDate(dateString) {
+            const date = dayjs(dateString);
+            return date.fromNow();
+        }
   }
 }
 </script>

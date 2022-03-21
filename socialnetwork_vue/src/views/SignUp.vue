@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-4 m-4">
-        <p class="text-center h1 p-3">Sign Up</p>
+      <p class="text-center h1 my-4">Sign Up</p>
+
+      <div class="col-4 shadow bg-white p-4">
         <form @submit.prevent="submitForm">
           <div class="input-group mb-3">
             <div class="input-group-prepend">

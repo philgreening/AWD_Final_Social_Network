@@ -1,26 +1,40 @@
 <template>
   <div class="container p-4">
     <div class="row">
-      <div class="col-12">
-        <div class="border my-2 p-4 ">
-          <p class="h2">@{{ user }}</p>
-          <p class="h2">{{ bio }}</p>
-          <button v-on:click="followUser" type="button" class="btn btn-info text-white">Follow</button>
+      <div class="col-12 offset-md-3">
+        <div class="shadow p-3 my-3 bg-white rounded w-50">
+          <p class="h1">
+            <template v-if="!profile_image">
+              <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="75" height="75" />
+            </template>
+            <template v-else>
+              <img class="rounded-circle me-3" v-bind:src="profile_image" width="75" height="75" />
+            </template>
+            @{{user}}
+          </p>
+          <p class="p-3">{{bio}}</p>
         </div>
-
+        <button v-on:click="followUser" type="button" class="btn btn-info text-white shadow mb-5">Follow</button>
         <div class="post" v-for="post in posts" v-bind:key="post">
-          <div v-if="post.user == this.user">
-            <p></p>
-            <div class="card border-info mb-3">
+          <template v-if="post.user == user">
+            <div class="card shadow mb-3 rounded w-50">
               <div class="card-header">
-                <p> @{{ post.user }}</p>
+                <p class="h5">
+                  <template v-if="!post.profile_image">
+                    <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+                  </template>
+                  <template v-else>
+                    <img class="rounded-circle me-3" v-bind:src="post.profile_image" width="50" height="50" />
+                  </template>
+                  @{{ post.user }}
+                  <small class="h6 text-muted">{{ formatDate(post.post_date) }}</small>
+                </p>
               </div>
-              <div class="card-body text-info">
+              <div class="card-body">
                 <p class="card-text">{{ post.post_text }}</p>
-                <p class="card-text h6">{{ post.post_date }}</p>
               </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -28,7 +42,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+// Import axios to make api calls  
+import axios from 'axios';
+
+// import dependancies to format timestamp
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export default {
   name: 'UserFeed',
@@ -42,10 +61,13 @@ export default {
       post_date: 'Now',
       loggedInUser: this.$store.state.user.username,
       loggedInUserId: this.$store.state.user.id,
+      profile_image: null
     }
   },
   async mounted() {
     document.title = 'User Feed | Social Network'
+
+        dayjs.extend(relativeTime);
 
     //get username from current url by taking the string from the last /
     let currentURL = window.location.pathname;
@@ -67,6 +89,7 @@ export default {
       .then(response => {
         // console.log(response)
         this.bio = response.data.bio;
+        this.profile_image = response.data.profile_image;
       })
       .catch(error => {
         console.log(error)
@@ -107,7 +130,12 @@ export default {
           console.log(error);
         });
 
-    }
+    },
+            formatDate(dateString) {
+            const date = dayjs(dateString);
+            return date.fromNow();
+        }
+  }
     //     submitPost() {
     //       console.log('submitPost');
 
@@ -135,6 +163,6 @@ export default {
     //       // clear post text for next post   
     //       this.post_text = '';
     //     }
-  }
+  
 }
 </script>

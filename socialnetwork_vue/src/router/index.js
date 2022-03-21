@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
+
 // import HomeView from '../views/HomeView.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
@@ -10,7 +12,7 @@ import UserFeed from '../views/UserFeed.vue'
 import MyFeed from '../views/MyFeed.vue'
 import MyProfile from '../views/MyProfile.vue'
 import Chat from '../views/Chat.vue'
-import ChatRoom from '../views/ChatRoom.vue'
+// import ChatRoom from '../views/ChatRoom.vue'
 
 
 
@@ -47,51 +49,79 @@ const routes = [
   {
     path: '/create-profile/',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/profile/',
     name: 'EditUserProfile',
-    component: EditUserProfile
+    component: EditUserProfile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/search/',
     name: 'Search',
-    component: Search
+    component: Search,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/user-feed/:user',
     name: 'UserFeed',
-    component: UserFeed
+    component: UserFeed,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/feed/',
     name: 'MyFeed',
-    component: MyFeed
+    component: MyFeed,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/my-profile/',
     name: 'MyProfile',
-    component: MyProfile
+    component: MyProfile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/chat/',
     name: 'Chat',
-    component: Chat
+    component: Chat,
+    meta: {
+      requiresAuth: true
+    }
   },
-  {
-    path: '/chat/:room',
-    name: 'ChatRoom',
-    component: ChatRoom
-  },
-
-
+  // {
+  //   path: '/chat/:room',
+  //   name: 'ChatRoom',
+  //   component: ChatRoom
+  // },
 
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+// Checks if login is requred and that user is authenticated
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth) && !store.state.isAuthenticated) {
+    next({ name: 'LogIn', query: { to: to.path } });
+  } else {
+    next()
+  }
 })
 
 export default router
