@@ -1,4 +1,3 @@
-from pyparsing import FollowedBy
 from .models import *
 from .serializers import *
 from .tasks import *
@@ -7,9 +6,6 @@ from django.db.models import Q
 from rest_framework import generics
 from rest_framework import mixins
 
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework.parsers import FormParser, FileUploadParser, MultiPartParser
 
 
@@ -39,22 +35,7 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostsSerializer
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-class PostListFollows(generics.ListAPIView):
-    queryset = Posts.objects.all()
-    serializer_class = PostsSerializer
-
-
-    def get_queryset(self):
-
-        post_list = UserProfile.objects.filter(
-            user='user')
-        
-        return post_list
-
-
-    
+        return self.create(request, *args, **kwargs)    
 
 class UserProfileDetail(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
@@ -63,16 +44,9 @@ class UserProfileDetail(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser, FileUploadParser)
 
 
-    # def patch(self):
-    #     user = self.kwargs.get('user__username')
-    #     profile = UserProfile.objects.patch(user=user)
-    #     print("profile",profile)
-    #     return profile
-   
-
 class UserProfileDetailUpdate(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = UpdateProfileSerializer
+    serializer_class = UserProfileSerializer
     lookup_field = 'user__username'
     parser_classes = (MultiPartParser, FormParser, FileUploadParser)
 
@@ -90,8 +64,6 @@ class UserProfileList(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     return self.create(request, *args, **kwargs)
 
 class SearchUsersView(generics.ListCreateAPIView):
     model = UserProfile
@@ -113,6 +85,3 @@ class FollowerDetail(generics.RetrieveDestroyAPIView):
 
     queryset = Following.objects.all()
     serializer_class = FollowingSerializer
-
-    # def post(self, request, *args, **kwargs):
-    #     return self.create(request, *args, **kwargs)

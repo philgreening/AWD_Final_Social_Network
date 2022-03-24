@@ -13,8 +13,10 @@
             @{{user}}
           </p>
           <p class="p-3">{{bio}}</p>
+          <h6 class="text-muted"> {{ getFollowingCount }} Following
+            {{ getFollowedByCount }} Followers</h6>
         </div>
-        <template v-if=" ifFollowing">
+        <template v-if="ifFollowing">
           <button v-on:click="unfollowUser" type="button"
             class="btn btn-danger text-white shadow mb-5">Unfollow</button>
 
@@ -70,7 +72,9 @@ export default {
       bio: '',
       post_date: 'Now',
       loggedInUser: this.$store.state.user.username,
-      profile_image: null
+      profile_image: null,
+      following_count: 0,
+      followed_by_count: 0,
     }
   },
   async mounted() {
@@ -116,7 +120,6 @@ export default {
       // retrieve user details from api
       .get("/api/v1/following_list/")
       .then(response => {
-        // console.log(response)
         this.following = response.data;
       })
       .catch(error => {
@@ -168,14 +171,30 @@ export default {
   // checks if user is in list of followers and retyurn true/false
   computed: {
     ifFollowing() {
-      console.log(this.user);
       for (let i = 0; i < this.following.length; i++) {
-        if (this.following[i].following == this.user) {
+        if (this.following[i].following == this.user &&
+          this.loggedInUser == this.following[i].user) {
           return true;
         }
       }
       return false;
+    },
+    getFollowingCount () {
+        for (let i = 0; i < this.following.length; i++) {
+          if(this.user === this.following[i].user){
+            this.following_count += 1;
+          }
+        }
+        return this.following_count;
+    },
+    getFollowedByCount () {
+      for (let i = 0; i < this.following.length; i++) {
+           if(this.user === this.following[i].following){
+            this.followed_by_count ++;
+          }
+    }
+        return this.followed_by_count;         
     }
   }
-}
+  }
 </script>

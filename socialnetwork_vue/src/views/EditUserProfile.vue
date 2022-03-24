@@ -30,7 +30,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="profileimage">Profile Image </span>
             </div>
-            <input type="file" class="form-control" @change="onFileUpload" >
+            <input type="file" class="form-control" @change="onFileUpload">
           </div>
           <template class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
@@ -52,7 +52,6 @@ export default {
   name: 'EditUserProfile',
   data() {
     return {
-      // userid: this.$store.state.user.id,
       user: this.$store.state.user.username,
       first_name: '',
       last_name: '',
@@ -63,19 +62,17 @@ export default {
       errors: []
     }
   },
-  mounted() {
+  async mounted() {
     document.title = 'Edit User Profile | Social Network'
 
     //get values from api and populate form
-    axios
+    await axios
       .get("/api/v1/updateprofile/" + this.user)
       .then(response => {
-        console.log(response)
         this.first_name = response.data.first_name;
         this.last_name = response.data.last_name;
         this.bio = response.data.bio;
         this.profile_image = response.data.profile_image;
-        console.log(this.profile_image, 'Profile image');
       })
       .catch(error => {
         console.log(error)
@@ -85,10 +82,9 @@ export default {
   },
   methods: {
     onFileUpload(img) {
-      // this.profile_image = img.target.files[0];
       this.new_profile_image = img.target.files[0];
     },
-    submitForm() {
+    async submitForm() {
       this.errors = []
       console.log(this.errors);
 
@@ -101,8 +97,8 @@ export default {
       if (this.last_name === '') {
         this.errors.push('Please enter your surmane')
       }
-      if (!this.errors.length) {  
-       // create and append data collected from form
+      if (!this.errors.length) {
+        // create and append data collected from form
         const formData = new FormData();
 
         formData.append('user', this.user)
@@ -111,27 +107,29 @@ export default {
         formData.append('bio', this.bio)
         formData.append('profile_image', this.new_profile_image)
 
-      axios
-        .put("api/v1/updateprofile/" + this.user, formData)
-        .then(Response => {
-          this.success = "Profile updated"
-          this.$router.push('#')
-          setTimeout(function(){ window.location.reload()}, 2000);
-        })
-        .catch(error => {
-          if (error.response) {
-            for (const property in error.response.data) {
-              this.errors.push(`${property}: ${error.response.data[property]}`)
+        await axios
+          .put("api/v1/updateprofile/" + this.user, formData)
+          .then(Response => {
+            this.success = "Profile updated"
+            this.$router.push('#')
+            setTimeout(function () {
+              window.location.reload()
+            }, 2000);
+          })
+          .catch(error => {
+            if (error.response) {
+              for (const property in error.response.data) {
+                this.errors.push(`${property}: ${error.response.data[property]}`)
+              }
+              console.log(JSON.stringify(error.response.data))
+            } else if (error.message) {
+              this.errors.push('Something went wrong. Please try again')
+              
+              console.log(JSON.stringify(error))
             }
-            console.log(JSON.stringify(error.response.data))
-          } else if (error.message) {
-            this.errors.push('Something went wrong. Please try again')
-
-            console.log(JSON.stringify(error))
-          }
-        })
+          })
+      }
     }
-  }
   }
 }
 </script>

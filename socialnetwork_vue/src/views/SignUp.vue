@@ -50,14 +50,14 @@ export default {
   data() {
     return {
       username: '',
-      email:'',
+      email: '',
       password: '',
       password2: '',
       errors: []
     }
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.errors = []
       console.log(this.errors);
 
@@ -76,7 +76,7 @@ export default {
           password: this.password,
           email: this.email
         }
-        axios
+        await axios
           .post("/api/v1/users/", formData)
           .then(Response => {
             localStorage.setItem('username', this.username)

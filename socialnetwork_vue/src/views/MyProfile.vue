@@ -14,10 +14,11 @@
             @{{user}}
 
           </p>
+
           <p class="p-3">{{bio}}</p>
+          <h6 class="text-muted"> {{ getFollowingCount }} Following
+            {{ getFollowedByCount }} Followers</h6>
         </div>
-
-
 
         <form @submit.prevent="submitPost">
           <div class="form-group ">
@@ -57,25 +58,25 @@
         <div v-for="follow in following" v-bind:key="follow">
 
           <template v-if="follow.following && user == follow.user">
-          <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.following } }">
-        <div class="shadow p-2 my-4 bg-white">
+            <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.following } }">
+              <div class="shadow p-2 my-4 bg-white">
 
-            <p class="h3 my-2">
+                <p class="h3 my-2">
 
-              <template v-if="!follow.profile_image">
-                <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
+                  <template v-if="!follow.profile_image">
+                    <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
 
 
-              </template>
-              <template v-else>
-                <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
+                  </template>
+                  <template v-else>
+                    <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
 
-              </template>
-              @{{follow.following}}
-              </p>
+                  </template>
+                  @{{follow.following}}
+                </p>
               </div>
 
-          </router-link>
+            </router-link>
           </template>
 
         </div>
@@ -102,7 +103,9 @@ export default {
       bio: '',
       post_date: 'Now',
       following: [],
-      profile_image: null
+      profile_image: null,
+      following_count: 0,
+      followed_by_count: 0,
     }
   },
   async mounted() {
@@ -180,6 +183,25 @@ export default {
       const date = dayjs(dateString);
       return date.fromNow();
     }
+  },
+  computed: {
+    getFollowingCount () {
+        for (let i = 0; i < this.following.length; i++) {
+          if(this.user === this.following[i].user){
+            this.following_count += 1;
+          }
+        }
+        return this.following_count;
+    },
+    getFollowedByCount () {
+      for (let i = 0; i < this.following.length; i++) {
+           if(this.user === this.following[i].following){
+            this.followed_by_count ++;
+          }
+    }
+        return this.followed_by_count;         
+    }
   }
 }
+
 </script>

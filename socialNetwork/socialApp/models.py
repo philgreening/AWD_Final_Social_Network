@@ -18,8 +18,6 @@ class Posts(models.Model):
     user = models.ForeignKey(User, related_name='posts', on_delete=models.DO_NOTHING)
     post_date = models.DateTimeField(auto_now_add=True)
     post_text = models.CharField(max_length=250)
-    images = models.ImageField(upload_to='post_images', blank=True)
-
 
     def __str__(self):
         return str(self.user.username)

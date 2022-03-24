@@ -2,23 +2,32 @@
 
   <div class="container my-3 p-4">
     <div class="row">
-      <div class="col-3 shadow bg-white p-4 offset-md-1">
-        <label class="h5" for="gen_btn">General: </label>
-        <button  class="btn btn-primary m-2" value="General" name="gen_btn" @click="enterRoom($event)">Enter</button><br>
-        <label class="h5" for="gen_btn2">Video Games: </label>
-        <button class="btn btn-primary m-2" value="Video Games" name="gen_btn2" @click="enterRoom($event)">Enter</button><br>
-        <label class="h5" for="gen_btn3">Movies: </label>
-        <button class="btn btn-primary m-2" value="Movies" name="gen_btn3" @click="enterRoom($event)">Enter</button>
+      <div class="col-3 p-4 offset-md-1 ">
+        <div class="shadow bg-white p-3 mb-4">
+          <label class="h5" for="gen_btn">General: </label>
+          <button class="btn btn-primary m-2" value="General" name="gen_btn" @click="enterRoom($event)">Enter</button>
+        </div>
+        <div class="shadow bg-white p-3 mb-4">
+          <label class="h5" for="gen_btn2">Video Games: </label>
+          <button class="btn btn-primary m-2" value="VideoGames" name="gen_btn2"
+            @click="enterRoom($event)">Enter</button>
+        </div>
+        <div class="shadow bg-white p-3 mb-4">
+          <label class="h5" for="gen_btn3">Movies: </label>
+          <button class="btn btn-primary m-2" value="Movies" name="gen_btn3" @click="enterRoom($event)">Enter</button>
+        </div>
       </div>
       <div class="col-6 shadow bg-white p-4 offset-md-1 w-50">
         <div v-if="roomName.length < 1">
           <p class="h1 text-center my-3">Please select a room</p>
         </div>
         <div v-else>
-        <p class="h1 text-center my-3">{{roomName}}</p>
-        <textarea class="shadow bg-white p-4 w-100 mb-3" id="chat-log" cols="100" rows="20"></textarea><br>
-        <input class="shadow w-100 mb-3" id="chat-message-input" ref="message_input" @keyup.enter="submitMessage" type="text" size="100"><br>
-        <input class="btn btn-success shadow" id="chat-message-submit" @click="submitMessage" type="button" value="Send">
+          <p class="h1 text-center my-3">{{roomName}}</p>
+          <textarea class="shadow bg-white p-4 w-100 mb-3" id="chat-log" cols="100" rows="20"></textarea><br>
+          <input class="shadow w-100 mb-3" id="chat-message-input" ref="message_input" @keyup.enter="submitMessage"
+            type="text" size="100"><br>
+          <input class="btn btn-success shadow" id="chat-message-submit" @click="submitMessage" type="button"
+            value="Send">
         </div>
       </div>
     </diV>
@@ -38,9 +47,7 @@ export default {
     }
 
   },
-  mounted() {
-    console.log(this.user)
-  },
+  mounted() {},
 
   methods: {
     enterRoom(e) {
@@ -48,27 +55,20 @@ export default {
       this.chatSocket = new WebSocket('ws://127.0.0.1:8000' + '/ws/' + this.roomName + '/');
 
       let chatMessages = document.querySelector('#chat-log');
-      if(chatMessages){
-      chatMessages.value = '';
+      if (chatMessages) {
+        chatMessages.value = '';
       }
-   
-    },
-    keyUp() {
-
-      this.getStoreRoom();
     },
     submitMessage() {
+      const username = this.user
+      this.chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        document.querySelector('#chat-log').value += (data.message + '\n');
+      };
 
-    const username = this.user
-    this.chatSocket.onmessage = function (e) {
-      const data = JSON.parse(e.data);
-      // console.log(this.user)
-      document.querySelector('#chat-log').value += (data.message + '\n');
-    };
-
-    this.chatSocket.onclose = function (e) {
-      console.error('Chat socket closed unexpectedly');
-    };
+      this.chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+      };
 
       const messageInputDom = document.querySelector('#chat-message-input');
       const message = messageInputDom.value;
@@ -79,8 +79,6 @@ export default {
       }));
       messageInputDom.value = '';
     }
-
   },
-
 }
 </script>
