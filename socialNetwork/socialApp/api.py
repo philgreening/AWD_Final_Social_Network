@@ -85,36 +85,6 @@ class UserProfileDetailUpdate(generics.RetrieveUpdateAPIView, generics.CreateAPI
         record = serializer.save()
         make_thumbnail.delay(record.pk)
 
-    
-    # lookup_field = 'user__username'
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.update(request, *args, **kwargs)
-
-    # def update(self, request):
-    #     print(request)
-    #     profile = UserProfile.objects.get(user=request)
-    #     profile.followed_by.add(user)
-    
-#     def update(request,loggedin_user,user):
-#         '''
-#         Purpose: Follow the user
-#         Input: -
-#         Output: User object of the logged in user
-#         '''
-#         try:
-#             cur_user=UserProfile.objects.get(username=loggedin_user)
-#             fol_user=UserProfile.objects.get(username=user)
-#             cur_user.following.add(fol_user)
-#             cur_user.save()
-#             serializer = UserProfileSerializer(cur_user)
-#             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
-#         except Exception as e:
-#             error = {'Error_code': status.HTTP_400_BAD_REQUEST,
-#                             'Error_Message': "Request Failed. Invalid Details"}
-#             return Response(error, status=status.HTTP_400_BAD_REQUEST)  
-        
-
 
 class UserProfileList(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
@@ -134,3 +104,15 @@ class SearchUsersView(generics.ListCreateAPIView):
             Q(user__username__icontains=query)
         )
         return user_list
+
+class FollowerList(generics.ListCreateAPIView):
+    queryset = Following.objects.all()
+    serializer_class = FollowingSerializer
+
+class FollowerDetail(generics.RetrieveDestroyAPIView):
+
+    queryset = Following.objects.all()
+    serializer_class = FollowingSerializer
+
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)

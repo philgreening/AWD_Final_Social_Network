@@ -64,19 +64,17 @@ export default {
     return {
       posts: [],
       following: [],
+      following_id: null,
       post_text: '',
       user: '',
-      userid: '',
       bio: '',
       post_date: 'Now',
       loggedInUser: this.$store.state.user.username,
-      loggedInUserId: this.$store.state.user.id,
       profile_image: null
     }
   },
   async mounted() {
     document.title = 'User Feed | Social Network'
-    console.log('test', this.following)
 
     dayjs.extend(relativeTime);
 
@@ -84,13 +82,11 @@ export default {
     let currentURL = window.location.pathname;
     const lastItem = currentURL.substring(currentURL.lastIndexOf('/') + 1)
     this.user = lastItem;
-    console.log(this.user, " :current user");
 
     await axios
       // retrieve posts from api
       .get("/api/v1/posts/")
       .then(response => {
-        // console.log(response);
         this.posts = response.data;
       })
 
@@ -98,20 +94,8 @@ export default {
       // retrieve user details from api
       .get("/api/v1/profile/" + this.user)
       .then(response => {
-        // console.log(response)
         this.bio = response.data.bio;
         this.profile_image = response.data.profile_image;
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    await axios
-      // retrieve user details from api
-      .get("/api/v1/profile/" + this.loggedInUser)
-      .then(response => {
-        // console.log(response)
-        this.following = response.data.following;
-        console.log('get', this.following)
       })
       .catch(error => {
         console.log(error)
@@ -126,40 +110,56 @@ export default {
           }
         }
       }
-    });
+    })
+
+    await axios
+      // retrieve user details from api
+      .get("/api/v1/following_list/")
+      .then(response => {
+        // console.log(response)
+        this.following = response.data;
+      })
+      .catch(error => {
+        console.log(error)
+      })
 
   },
   methods: {
     async followUser() {
-      let follows = {
+
+      let following = {
+        'user': this.loggedInUser,
         'following': this.user
       }
 
-      let followed_by = {
-        'followed_by': this.loggedInUserId
-      }
-
       await axios
-        .patch("/api/v1/profile/" + this.loggedInUser, follows)
+        .post("/api/v1/following_list/", following)
         .then(response => {
-          console.log(response, ": line 91 userfeed")
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      await axios
-        .patch("/api/v1/profile/" + this.user, followed_by)
-        .then(response => {
-          // this.$router.push({name:Class, params: { id: classID}})
-
-          console.log(response, ": line 100 userfeed")
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
         });
 
     },
+    async unfollowUser() {
+
+      for (let i = 0; i < this.following.length; i++) {
+        if (this.following[i].following === this.user) {
+          this.following_id = this.following[i].id;
+        }
+      }
+
+      await axios
+        .delete("/api/v1/following/" + this.following_id)
+        .then(response => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.fromNow();
@@ -170,41 +170,12 @@ export default {
     ifFollowing() {
       console.log(this.user);
       for (let i = 0; i < this.following.length; i++) {
-        if (this.following[i].user == this.user) {
-          console.log('true', this.following[i].user)
+        if (this.following[i].following == this.user) {
           return true;
         }
       }
       return false;
     }
-    //     submitPost() {
-    //       console.log('submitPost');
-
-    //       //submit post if there is an entry
-    //       if (this.post_text.length > 0) {
-    //         let post_data = {
-    //           'post_text': this.post_text,
-    //           'user': this.user,
-    //           'post_date': this.post_date
-    //         };
-    //         //sent post to the top of the stack
-    //         this.posts.unshift(post_data);
-
-    //         //send post and auth token to api end point
-    //         axios
-    //           .post("/api/v1/posts/", post_data)
-    //           .then(response => {
-    //             // const token = response.data.auth_token
-    //             // axios.defaults.headers.common["Authorization"] = "Token " + token
-    //           })
-    //           .catch((error) => {
-    //             console.log(error);
-    //           });
-    //       }
-    //       // clear post text for next post   
-    //       this.post_text = '';
-    //     }
-
   }
 }
 </script>

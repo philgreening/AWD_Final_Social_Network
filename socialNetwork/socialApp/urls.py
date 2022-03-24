@@ -9,5 +9,7 @@ urlpatterns = [
     path('api/v1/profile/<user__username>', api.UserProfileDetail.as_view(), name='profile'),
     path('api/v1/updateprofile/<user__username>', api.UserProfileDetailUpdate.as_view(), name='updateProfile'),
     path('api/v1/search/', api.SearchUsersView.as_view(), name='search'),
-    path('api/v1/follows/', api.PostListFollows.as_view(), name='follows'),
+    # path('api/v1/follows/', api.PostListFollows.as_view(), name='follows'),
+    path('api/v1/following_list/', api.FollowerList.as_view() , name='following_list'),
+    path('api/v1/following/<int:pk>', api.FollowerDetail.as_view() , name='following')
 ]

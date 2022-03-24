@@ -54,10 +54,13 @@
       <div class="col-3 offset-md-1">
         <p class="h1 text-center">Following</p>
 
-        <div class="shadow p-2 my-4 bg-white" v-for="follow in following" v-bind:key="follow">
-          <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.user } }">
+        <div v-for="follow in following" v-bind:key="follow">
 
-            <p class="h3">
+          <template v-if="follow.following && user == follow.user">
+          <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.following } }">
+        <div class="shadow p-2 my-4 bg-white">
+
+            <p class="h3 my-2">
 
               <template v-if="!follow.profile_image">
                 <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="50" height="50" />
@@ -68,10 +71,12 @@
                 <img class="rounded-circle me-3" v-bind:src="follow.profile_image" width="50" height="50" />
 
               </template>
-              @{{follow.user}}
+              @{{follow.following}}
               </p>
+              </div>
 
           </router-link>
+          </template>
 
         </div>
       </diV>
@@ -100,58 +105,55 @@ export default {
       profile_image: null
     }
   },
- async mounted() {
+  async mounted() {
     document.title = 'My Profile | Social Network'
 
     dayjs.extend(relativeTime);
 
-    console.log(this.following)
-
-   
-   await axios
+    await axios
       .get("/api/v1/posts/")
-      .then(response =>{
-        console.log(response);
+      .then(response => {
         this.posts = response.data;
-        console.log("posts",this.posts)
       })
 
     await axios
       .get("/api/v1/profile/" + this.user)
-      .then(response =>{
-        console.log(response);
+      .then(response => {
         this.bio = response.data.bio;
-        this.following = response.data.following;
         this.profile_image = response.data.profile_image;
-        console.log("following: ", this.following)
       })
 
-      // get profile picture then match picture to user in posts
-      await axios.get("/api/v1/profiles/").then((response) => {
-        for (let i = 0; i < this.posts.length; i++) {
-          for (let j = 0; j < response.data.length; j++) {
-            if (this.posts[i].user === response.data[j].user) {
-              this.posts[i].profile_image = response.data[j].profile_image;
-            }
-          }
-        }
-      });
+    await axios
+      .get("/api/v1/following_list/")
+      .then(response => {
+        this.following = response.data;
+      })
 
-        // get profile picture then match picture to following user
-      await axios.get("/api/v1/profiles/").then((response) => {
-        for (let i = 0; i < this.following.length; i++) {
-          for (let j = 0; j < response.data.length; j++) {
-            if (this.following[i].user === response.data[j].user) {
-              this.following[i].profile_image = response.data[j].profile_image;
-            }
+    // get profile picture then match picture to user in posts
+    await axios.get("/api/v1/profiles/").then((response) => {
+      for (let i = 0; i < this.posts.length; i++) {
+        for (let j = 0; j < response.data.length; j++) {
+          if (this.posts[i].user === response.data[j].user) {
+            this.posts[i].profile_image = response.data[j].profile_image;
           }
         }
-      });
+      }
+    });
+
+    // get profile picture then match picture to following user
+    await axios.get("/api/v1/profiles/").then((response) => {
+      for (let i = 0; i < this.following.length; i++) {
+        for (let j = 0; j < response.data.length; j++) {
+          if (this.following[i].following === response.data[j].user) {
+            this.following[i].profile_image = response.data[j].profile_image;
+          }
+        }
+      }
+    });
 
   },
   methods: {
-   async submitPost() {
-      console.log('submitPost');
+    async submitPost() {
 
       //submit post if there is an entry
       if (this.post_text.length > 0) {
@@ -164,12 +166,9 @@ export default {
         //sent post to the top of the stack
         this.posts.unshift(post_data);
 
-       await axios
+        await axios
           .post("/api/v1/posts/", post_data)
-          .then(response => {
-            // const token = response.data.auth_token
-            // axios.defaults.headers.common["Authorization"] = "Token " + token
-          })
+          .then(response => {})
           .catch((error) => {
             console.log(error);
           });
@@ -177,10 +176,10 @@ export default {
       // clear post text for next post   
       this.post_text = '';
     },
-        formatDate(dateString) {
-            const date = dayjs(dateString);
-            return date.fromNow();
-        }
+    formatDate(dateString) {
+      const date = dayjs(dateString);
+      return date.fromNow();
+    }
   }
 }
 </script>
