@@ -98,8 +98,8 @@ export default {
         await axios
           .post("api/v1/updateprofile/" + this.user, formData)
           .then(Response => {
-            localStorage.removeItem('username')
-            this.$router.push('/log-in')
+            // localStorage.removeItem('username')
+            this.$router.push('/my-profile')
           })
           .catch(error => {
             if (error.response) {

@@ -178,6 +178,8 @@ export default {
       }
       // clear post text for next post   
       this.post_text = '';
+      window.location.reload();
+
     },
     formatDate(dateString) {
       const date = dayjs(dateString);

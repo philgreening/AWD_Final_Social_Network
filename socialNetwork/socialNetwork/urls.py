@@ -13,9 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from multiprocessing import context
-from re import template
-from unicodedata import name
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -26,13 +24,16 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('', include('socialApp.urls')),
     path('admin/', admin.site.urls),
+    # includes djoser api links and authentication api endpoints 
     path('api/v1/', include('djoser.urls')),
     path('api/v1/', include('djoser.urls.authtoken')),
+    # generate open-api schema and link
     path('apischema/', get_schema_view(
         title= 'Social Network REST API',
         description= 'API for interacting with social network user records',
         version='1.0'
     ), name='openapi-schema'),
+    # generate API documentation and link
     path('swaggerdocs/', TemplateView.as_view(
         template_name = 'socialApp/swagger-docs.html',
         extra_context={'schema_url': 'openapi-schema'}

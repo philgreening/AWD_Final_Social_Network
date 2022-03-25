@@ -69,7 +69,7 @@ class SearchUsersView(generics.ListCreateAPIView):
     model = UserProfile
     serializer_class = UserProfileSerializer
 
-   
+    # defines search query set to search on username
     def get_queryset(self):
         query = self.request.GET.get('q')
         user_list = UserProfile.objects.filter(
@@ -77,6 +77,7 @@ class SearchUsersView(generics.ListCreateAPIView):
         )
         return user_list
 
+# 
 class FollowerList(generics.ListCreateAPIView):
     queryset = Following.objects.all()
     serializer_class = FollowingSerializer
