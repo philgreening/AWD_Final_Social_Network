@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand navbar-dark bg-dark p-4">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand"><strong>Social Network</strong></router-link>
+      <router-link to="/" class="navbar-brand"><strong>YourSpace</strong></router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcollapse"
         aria-controls="navcollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

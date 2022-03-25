@@ -2,7 +2,7 @@
   <div class="container p-4">
     <div class="p-5 mb-4 bg-white shadow-sm rounded-3">
       <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Welcome to Social Network</h1>
+        <h1 class="display-5 fw-bold">Welcome to YourSpace</h1>
         <p class="col-8 fs-4">Please sign up or log in</p>
         <router-link to="/sign-up" class="btn btn-lg btn-danger me-2 shadow"><strong>Sign Up</strong></router-link>
         <router-link to="/log-in" class="btn btn-lg btn-success ms-2 shadow"><strong>Log In</strong></router-link>

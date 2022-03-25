@@ -29,8 +29,8 @@ urlpatterns = [
     path('api/v1/', include('djoser.urls.authtoken')),
     # generate open-api schema and link
     path('apischema/', get_schema_view(
-        title= 'Social Network REST API',
-        description= 'API for interacting with social network user records',
+        title= 'YourSpace REST API',
+        description= 'API for interacting with YourSpace user records',
         version='1.0'
     ), name='openapi-schema'),
     # generate API documentation and link
