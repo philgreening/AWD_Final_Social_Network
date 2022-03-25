@@ -1,8 +1,12 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from django.views.generic import TemplateView
+
+
 from . import api
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name = 'socialApp/index.html'), name='index'),
     path('api/v1/post/<int:pk>', api.PostDetail.as_view(), name='post'),
     path('api/v1/posts/', api.PostList.as_view(), name='posts'),
     path('api/v1/profiles/', api.UserProfileList.as_view(), name='profiles'),
