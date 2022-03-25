@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'channels',
-
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {
