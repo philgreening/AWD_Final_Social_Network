@@ -32,9 +32,11 @@
             </div>
             <input type="file" class="form-control" @change="onFileUpload">
           </div>
+          <!-- display error messages -->
           <template class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </template>
+          <!-- display success message -->
           <template class="alert alert-success mb-3" v-if="success.length">
             <p class="text-center">{{ success }}</p>
           </template>
@@ -84,6 +86,7 @@ export default {
     onFileUpload(img) {
       this.new_profile_image = img.target.files[0];
     },
+    // submits form and handles errors
     async submitForm() {
       this.errors = []
       console.log(this.errors);
@@ -107,6 +110,7 @@ export default {
         formData.append('bio', this.bio)
         formData.append('profile_image', this.new_profile_image)
 
+        // sends update to teh api
         await axios
           .put("api/v1/updateprofile/" + this.user, formData)
           .then(Response => {

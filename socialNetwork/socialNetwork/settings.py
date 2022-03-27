@@ -51,6 +51,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    # Would be activated in production and API key provided to users
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
     # ),
@@ -61,8 +62,6 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FileUploadParser",
     ),
 }
-
-# CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",

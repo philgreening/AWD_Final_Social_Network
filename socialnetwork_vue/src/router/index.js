@@ -102,11 +102,6 @@ const routes = [
       requiresAuth: true
     }
   },
-  // {
-  //   path: '/chat/:room',
-  //   name: 'ChatRoom',
-  //   component: ChatRoom
-  // },
 
 ]
 

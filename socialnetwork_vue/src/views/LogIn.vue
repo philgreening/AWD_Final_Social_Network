@@ -34,66 +34,70 @@
 import axios from 'axios'
 
 export default {
-    name: 'LogIn',
-    data() {
-        return {
-            username: '',
-            password: '',
-            errors: []
-        }
-    },
-    mounted() {
-        document.title = 'Log In | Social Network'
-    },
-    methods: {
-        async submitForm() {
-            axios.defaults.headers.common["Authorization"] = ""
-
-            localStorage.removeItem("token")
-
-            const formData = {
-                username: this.username,
-                password: this.password
-            }
-            
-            await axios
-                .post("/api/v1/token/login/", formData)
-                .then(response => {
-                    const token = response.data.auth_token
-                    this.$store.commit('setToken', token)
-                    
-                    axios.defaults.headers.common["Authorization"] = "Token " + token
-                    localStorage.setItem("token", token)
-                })
-                .catch(error => {
-                    if (error.response) {
-                        for (const property in error.response.data) {
-                            this.errors.push(`${property}: ${error.response.data[property]}`)
-                        }
-                    } else {
-                        this.errors.push('Something went wrong. Please try again')
-                        
-                        console.log(JSON.stringify(error))
-                    }
-                })
-
-
-            await axios
-                .get('/api/v1/users/me/')
-                .then(response => {
-                    this.$store.commit('setUser', {'id': response.data.id, 'username': response.data.username})
-                    localStorage.setItem('username', response.data.username)
-                    localStorage.setItem('userid', response.data.id)
-                })
-
-                const toPath = this.$route.query.to || '/feed'
-                this.$router.push(toPath)
-
-                .catch(error => {
-                    console.log(error)
-                })
-        }
+  name: 'LogIn',
+  data() {
+    return {
+      username: '',
+      password: '',
+      errors: []
     }
+  },
+  mounted() {
+    document.title = 'Log In | Social Network'
+  },
+  methods: {
+    // submits form and authentication headers
+    async submitForm() {
+      axios.defaults.headers.common["Authorization"] = ""
+
+      localStorage.removeItem("token")
+
+      const formData = {
+        username: this.username,
+        password: this.password
+      }
+      // sends username and password to api
+      await axios
+        .post("/api/v1/token/login/", formData)
+        // recieves auth token and stores it 
+        .then(response => {
+          const token = response.data.auth_token
+          this.$store.commit('setToken', token)
+
+          axios.defaults.headers.common["Authorization"] = "Token " + token
+          localStorage.setItem("token", token)
+        })
+        .catch(error => {
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${property}: ${error.response.data[property]}`)
+            }
+          } else {
+            this.errors.push('Something went wrong. Please try again')
+
+            console.log(JSON.stringify(error))
+          }
+        })
+      // retrieves current username an id from api
+      await axios
+        .get('/api/v1/users/me/')
+        .then(response => {
+          this.$store.commit('setUser', {
+            'id': response.data.id,
+            'username': response.data.username
+          })
+          localStorage.setItem('username', response.data.username)
+          localStorage.setItem('userid', response.data.id)
+        })
+
+      const toPath = this.$route.query.to || '/feed'
+      this.$router.push(toPath)
+
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
 }
 
 

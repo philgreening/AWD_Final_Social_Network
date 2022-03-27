@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-4 m-4">
-           <div class="text-center my-2">
+        <div class="text-center my-2">
           <p class="h1">@{{ user }}</p>
           <p class="h3">Create a Profile</p>
         </div>
@@ -26,8 +26,6 @@
             <textarea class="form-control" placeholder="Create a Bio..." v-model="bio"></textarea>
           </div>
           <div class="input-group mb-3">
-                                        <!-- <img src={{profile_imgage}}> -->
-
             <div class="input-group-prepend">
               <span class="input-group-text" id="profileimage">Profile Image</span>
             </div>
@@ -36,13 +34,7 @@
           <div class="alert alert-danger mb-3" v-if="errors.length">
             <p class="text-center" v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div>
-          <!-- <div class="alert alert-success mb-3" v-if="success.length">
-            <p class="text-center" >{{ success }}</p>
-          </div> -->
           <button type="submit" class="btn btn-primary pull-left">Submit</button>
-
-          <!-- <hr>
-          Or <router-link to="/log-in">click here</router-link> to log in -->
         </form>
       </div>
     </div>

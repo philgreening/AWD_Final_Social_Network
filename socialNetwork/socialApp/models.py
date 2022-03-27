@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
-
+# Model to hold user profiles
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, blank=False, null=False)
@@ -13,7 +12,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return str(self.user.username)
-    
+
+# Model to hold posts made by users    
 class Posts(models.Model):
     user = models.ForeignKey(User, related_name='posts', on_delete=models.DO_NOTHING)
     post_date = models.DateTimeField(auto_now_add=True)
@@ -23,8 +23,10 @@ class Posts(models.Model):
         return str(self.user.username)
     
     class Meta:
+        # Puts posts in date order
         ordering = ('-post_date',)
 
+# Model to hold user relationships 
 class Following(models.Model):
     user = models.CharField(max_length=200)
     following = models.CharField(max_length=200)

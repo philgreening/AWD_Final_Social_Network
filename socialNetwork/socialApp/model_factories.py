@@ -2,14 +2,14 @@ import factory
 
 from .models import *
 
+# create fixtures for User model
 class UserFactory(factory.django.DjangoModelFactory):
     username = 'DarthVader'
 
     class Meta:
         model = User
 
-
-# create fixtures for sequencing model
+# create fixtures for userProfile model
 class UserProfileFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     first_name = 'Anakin'
@@ -21,7 +21,7 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserProfile
 
-# create fixtures for pfamDescriptions model
+# create fixtures for Posts model
 class PostFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     post_date = models.DateTimeField(auto_now_add=True)
@@ -30,6 +30,7 @@ class PostFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Posts
 
+# create fixtures for Follower model
 class FollowerFactory(factory.django.DjangoModelFactory):
     id = 1
     user = 'DarthVader'

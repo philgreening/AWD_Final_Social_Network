@@ -1,0 +1,161 @@
+commit 0b37c865bb3502eebc6d2d4648029e68db06e157
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Mar 25 22:00:16 2022 +0000
+
+    added ERD
+
+commit e840d74e32e6196306ff96e1decc7fbf78298d79
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Mar 25 17:38:51 2022 +0000
+
+    added requirements.txt
+
+commit 49700eb006629ea213ee562f66f8dac2c3f9a2ea
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Mar 25 17:05:34 2022 +0000
+
+    flush database and added new ussers. fixed bug on sign up
+
+commit 034e92946f22b8b52f2e783610d16cfe49bfd0d6
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Mar 25 12:51:11 2022 +0000
+
+    Added open-api schema and swagger docs
+
+commit 24f46554f6cee1fdcc3e3231c0b1345fd91a23ca
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Thu Mar 24 23:57:38 2022 +0000
+
+    added follower/following counts. debug following on user feed
+
+commit 1bc3aefc4fcfbde6ac6ad9133fdedf61fd626c7f
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Thu Mar 24 01:09:46 2022 +0000
+
+     Fixed following/unfollowing system. Added unit testing models
+
+commit 9b27c94cc1a4205d1f231c67e6a56e7444efe63c
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Mon Mar 21 22:25:50 2022 +0000
+
+    follow/unfollow button logic added
+
+commit b060872ccca299d078a9c424bdbef2b328014010
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Mon Mar 21 17:27:35 2022 +0000
+
+    Styling added to posts and profile pages. Auth now implemented for pages requiring login
+
+commit d96a59e0e528b6c572745db50fbb7af35e0ebb06
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Mon Mar 21 01:06:34 2022 +0000
+
+    styled home page and added profile image to posts
+
+commit 02e2f22215b0bb9b14a160e310efee06e8c20d74
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Sat Mar 19 01:17:52 2022 +0000
+
+    chat working with multiple users
+
+commit 72dc2533bc2cb8205f841f6914e05249b1b83fbf
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Wed Mar 16 23:03:19 2022 +0000
+
+    Websocket chat now connceted and sending messages
+
+commit f54bf17642a16c8ba50fb6b3e9a20287a9b1cd19
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Mar 11 01:06:41 2022 +0000
+
+    Profile pictures added. Celery task added to resize and upload
+
+commit f68130ac54f5ed82b15f5803e766f414982d225a
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Mar 8 16:34:27 2022 +0000
+
+    my feed now filters by following
+
+commit e9d0c6db3c4e9d30c3d7de1a0d163982c94b1d94
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Sat Mar 5 01:56:03 2022 +0000
+
+    attempted to add following
+
+commit bb8aa3855224b9c1a9a39b8e8502e265867e9a7c
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Thu Mar 3 23:35:51 2022 +0000
+
+    Search working and user profile and posts fileterd by username
+
+commit 1b13673dfb387f41ce56673c2e6752362c674d0a
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Thu Mar 3 00:03:12 2022 +0000
+
+    Added basic user search
+
+commit b2a630e290fe0d862f31e31c558bb546768ef539
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Wed Mar 2 00:53:08 2022 +0000
+
+    create and edit profile now working
+
+commit 64642413217584fa40fe46f170d97a8286ac83f6
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Mar 1 15:07:05 2022 +0000
+
+    added get request to fill user profile
+
+commit d86a762cceac036fc7be4e5bf708b96c343f6826
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Mon Feb 28 00:45:25 2022 +0000
+
+    started user profile. added post method to feed
+
+commit 7ae8951a06c51551185d5bf00a05ec795733006d
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Sun Feb 27 00:42:18 2022 +0000
+
+    posts now sending to backend server from feed.vue
+
+commit 4afa23374e59bc3d9f3eb65b5d23d14064bb3147
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Feb 25 23:42:05 2022 +0000
+
+    Authentication and user state now working
+
+commit 328406b0adfbf3af785ab377486ea423e44d09af
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Fri Feb 25 01:42:52 2022 +0000
+
+    working on auth login/logout. basic feed set up
+
+commit 95d0366b09f936f174a91e3d48355ab6ab2f066b
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Feb 22 23:54:33 2022 +0000
+
+    login and sign up working
+
+commit 52fe6ff62ea692e1ce4bbfa66a75579b88ef5a9a
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Feb 22 14:48:40 2022 +0000
+
+    working on authentiaction
+
+commit a6ce481f140ddbd502651d6f613afb094244a6d0
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Feb 22 00:18:38 2022 +0000
+
+    started work on signup page
+
+commit b84613110692a1fcbae1c189144e4f9ae4e3ce3b
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Tue Feb 22 00:17:46 2022 +0000
+
+    started work on signup page
+
+commit 52719f58c42c3195faff7b4bbd7c81ccf0b48714
+Author: Phil Greening <philgreening@hotmail.com>
+Date:   Mon Feb 21 01:09:21 2022 +0000
+
+    first commit. Created Django and Vue apps

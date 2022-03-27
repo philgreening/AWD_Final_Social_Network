@@ -58,12 +58,14 @@ export default {
 
     dayjs.extend(relativeTime);
 
+    // gets posts from api
     await axios
       .get("/api/v1/posts/")
       .then(response => {
         this.posts = response.data
       })
 
+    // gets follower relationships from api
     await axios
       .get("/api/v1/following_list/")
       .then(response => {
@@ -82,35 +84,14 @@ export default {
     });
   },
   methods: {
-    async submitPost() {
-
-      //submit post if there is an entry
-      if (this.post_text.length > 0) {
-        let post_data = {
-          'post_text': this.post_text,
-          'user': this.user,
-          'post_date': this.post_date
-        };
-        //sent post to the top of the stack
-        this.posts.unshift(post_data);
-
-        //send post data to api end point
-        await axios
-          .post("/api/v1/posts/", post_data)
-          .then(response => {})
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-      // clear post text for next post   
-      this.post_text = '';
-    },
+    // format date into a more readable format i.e. 2 days ago
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.fromNow();
     }
   },
   computed: {
+    // Returns followed users
     ifFollowing() {
       for (let i = 0; i < this.following.length; i++) {
         if (this.following[i].user == this.user) {

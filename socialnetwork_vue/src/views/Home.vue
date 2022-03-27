@@ -11,6 +11,7 @@
     <div class="row">
       <p class="h1 text-center">Latest Posts</p>
       <div class="col-12 offset-md-3">
+        <!-- displays the most recent 5 posts -->
         <div class="post" v-for="post in posts.slice(0, 5)" v-bind:key="post">
           <div class="card shadow mb-3 rounded w-50">
             <div class="card-header">

@@ -4,11 +4,12 @@
       <div class="col-6 offset-md-1">
         <div class="shadow p-3 my-3 bg-white rounded">
           <p class="h1">
-
+            <!-- Displays generic profile image if none found -->
             <template v-if="!profile_image">
               <img class="rounded-circle me-3" src="../assets/mrx.jpg" width="75" height="75" />
             </template>
             <template v-else>
+              <!-- Displays user profile image if found -->
               <img class="rounded-circle me-3" v-bind:src="profile_image" width="75" height="75" />
             </template>
             @{{user}}
@@ -56,7 +57,7 @@
         <p class="h1 text-center">Following</p>
 
         <div v-for="follow in following" v-bind:key="follow">
-
+          <!-- Displays users followed -->
           <template v-if="follow.following && user == follow.user">
             <router-link class="text-decoration-none" :to="{ name: 'UserFeed', params: { user: follow.following } }">
               <div class="shadow p-2 my-4 bg-white">
@@ -113,12 +114,14 @@ export default {
 
     dayjs.extend(relativeTime);
 
+    // gets posts from api
     await axios
       .get("/api/v1/posts/")
       .then(response => {
         this.posts = response.data;
       })
 
+    // gets user profile from api
     await axios
       .get("/api/v1/profile/" + this.user)
       .then(response => {
@@ -126,6 +129,7 @@ export default {
         this.profile_image = response.data.profile_image;
       })
 
+    // gets follower relationship from api
     await axios
       .get("/api/v1/following_list/")
       .then(response => {
@@ -181,27 +185,30 @@ export default {
       window.location.reload();
 
     },
+    // format date into a more readable format i.e. 2 days ago
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.fromNow();
     }
   },
   computed: {
-    getFollowingCount () {
-        for (let i = 0; i < this.following.length; i++) {
-          if(this.user === this.following[i].user){
-            this.following_count += 1;
-          }
-        }
-        return this.following_count;
-    },
-    getFollowedByCount () {
+    // returns following count
+    getFollowingCount() {
       for (let i = 0; i < this.following.length; i++) {
-           if(this.user === this.following[i].following){
-            this.followed_by_count ++;
-          }
-    }
-        return this.followed_by_count;         
+        if (this.user === this.following[i].user) {
+          this.following_count += 1;
+        }
+      }
+      return this.following_count;
+    },
+    // returns followed by count
+    getFollowedByCount() {
+      for (let i = 0; i < this.following.length; i++) {
+        if (this.user === this.following[i].following) {
+          this.followed_by_count++;
+        }
+      }
+      return this.followed_by_count;
     }
   }
 }

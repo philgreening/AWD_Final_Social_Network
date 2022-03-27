@@ -13,6 +13,7 @@ export default createStore({
   getters: {
   },
   mutations: {
+    // initialises store on application start
     initializeStore(state) {
       
       if (localStorage.getItem('token')) {
@@ -28,14 +29,17 @@ export default createStore({
           state.user.username = ''
       } 
     },
+    // sets the authentication state
     setToken(state, token) {
       state.token = token
       state.isAuthenticated = true
-    },  
+    },
+    // clears the authentication state 
     removeToken(state) {
         state.token = ''
         state.isAuthenticated = false
     },
+    // stores current username for session
     setUser(state, user) {
       state.user = user
     }

@@ -57,6 +57,7 @@ export default {
     }
   },
   methods: {
+    // validates and submits form data to api
     async submitForm() {
       this.errors = []
       console.log(this.errors);
@@ -76,6 +77,7 @@ export default {
           password: this.password,
           email: this.email
         }
+        // sends form data to api
         await axios
           .post("/api/v1/users/", formData)
           .then(Response => {

@@ -50,6 +50,7 @@ export default {
   mounted() {},
 
   methods: {
+    // starts a websocet connection when entering a chatroom
     enterRoom(e) {
       this.roomName = e.target.value;
       this.chatSocket = new WebSocket('ws://127.0.0.1:8000' + '/ws/' + this.roomName + '/');
@@ -59,6 +60,7 @@ export default {
         chatMessages.value = '';
       }
     },
+    // senda a users message to the websocket
     submitMessage() {
       const username = this.user
       this.chatSocket.onmessage = function (e) {

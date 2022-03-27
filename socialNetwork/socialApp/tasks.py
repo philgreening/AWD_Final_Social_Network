@@ -5,10 +5,12 @@ from PIL import Image as img
 import io
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+# Celery task to create thumbnail of image upload
 @shared_task
 def make_thumbnail(user_image):
     record = UserProfile.objects.get(pk=user_image)
-
+    
+    #stores upload in media folder and resizes image
     image = img.open('media/'+ str(record.profile_image))
     x_scale_factor = image.size[0]/200
     thumbnail = image.resize((200, int(image.size[1]/x_scale_factor)))

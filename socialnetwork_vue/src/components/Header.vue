@@ -9,6 +9,7 @@
 
 
       <div class="collapse navbar-collapse" id="navcollapse">
+        <!-- Display if user is authenticated -->
         <template v-if="$store.state.isAuthenticated">
 
           <ul class="navbar-nav mr-auto">
@@ -36,11 +37,9 @@
           </form>
         </template>
       </div>
-
+      <!-- Display if user is NOT authenticated -->
       <template v-if="!$store.state.isAuthenticated">
-        
         <div class="navbar-end ">
-
           <router-link to="/log-in" class="btn btn-light me-4"><strong>Log In</strong></router-link>
         </div>
       </template>
@@ -59,32 +58,30 @@
 </template>
 
 <script>
-
 import axios from 'axios'
 
 export default {
   name: 'Header',
-    methods: {
-      async logout() {
-        // call logout api end point and send token
-        await axios
-          .post('api/v1/token/logout/')
-          .then(response => {
-            console.log('logged out')
-          })
-          .catch(error => {
-            console.log(JSON.stringify(error))
-          })
-          // remove authentication token and data
-          axios.defaults.headers.common["Authorization"] = "";
-          localStorage.removeItem("token");
-          localStorage.removeItem('username');
-          localStorage.removeItem('userid');
-          this.$store.commit('removeToken');
-          this.$store.state.user.username ='';
-          this.$router.push('/');
-        },
+  methods: {
+    async logout() {
+      // call logout api end point and send token
+      await axios
+        .post('api/v1/token/logout/')
+        .then(response => {
+          console.log('logged out')
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+        })
+      // remove authentication token and data
+      axios.defaults.headers.common["Authorization"] = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem('username');
+      localStorage.removeItem('userid');
+      this.$store.commit('removeToken');
+      this.$store.state.user.username = '';
+      this.$router.push('/');
     },
+  },
 }
-
 </script>

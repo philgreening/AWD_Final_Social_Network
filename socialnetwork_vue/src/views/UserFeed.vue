@@ -19,13 +19,10 @@
         <template v-if="ifFollowing">
           <button v-on:click="unfollowUser" type="button"
             class="btn btn-danger text-white shadow mb-5">Unfollow</button>
-
         </template>
         <template v-else>
           <button v-on:click="followUser" type="button" class="btn btn-info text-white shadow mb-5">Follow</button>
-
         </template>
-
         <div class="post" v-for="post in posts" v-bind:key="post">
           <template v-if="post.user == user">
             <div class="card shadow mb-3 rounded w-50">
@@ -82,20 +79,20 @@ export default {
 
     dayjs.extend(relativeTime);
 
-    //get username from current url by taking the string from the last /
+    //get username from current url by taking the string from the last 
     let currentURL = window.location.pathname;
     const lastItem = currentURL.substring(currentURL.lastIndexOf('/') + 1)
     this.user = lastItem;
 
+    // retrieve posts from api
     await axios
-      // retrieve posts from api
       .get("/api/v1/posts/")
       .then(response => {
         this.posts = response.data;
       })
 
+    // retrieve user details from api
     await axios
-      // retrieve user details from api
       .get("/api/v1/profile/" + this.user)
       .then(response => {
         this.bio = response.data.bio;
@@ -145,6 +142,7 @@ export default {
         });
 
     },
+    // Gets following id and removes user relationship
     async unfollowUser() {
 
       for (let i = 0; i < this.following.length; i++) {
@@ -152,7 +150,7 @@ export default {
           this.following_id = this.following[i].id;
         }
       }
-
+      //  deletes user relationship from api
       await axios
         .delete("/api/v1/following/" + this.following_id)
         .then(response => {
@@ -162,14 +160,14 @@ export default {
           console.log(error);
         });
     },
-
+    // format date into a more readable format i.e. 2 days ago
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.fromNow();
     }
   },
-  // checks if user is in list of followers and retyurn true/false
   computed: {
+    // Returns followed users
     ifFollowing() {
       for (let i = 0; i < this.following.length; i++) {
         if (this.following[i].following == this.user &&
@@ -179,22 +177,24 @@ export default {
       }
       return false;
     },
-    getFollowingCount () {
-        for (let i = 0; i < this.following.length; i++) {
-          if(this.user === this.following[i].user){
-            this.following_count += 1;
-          }
-        }
-        return this.following_count;
-    },
-    getFollowedByCount () {
+    // calculates following count
+    getFollowingCount() {
       for (let i = 0; i < this.following.length; i++) {
-           if(this.user === this.following[i].following){
-            this.followed_by_count ++;
-          }
-    }
-        return this.followed_by_count;         
+        if (this.user === this.following[i].user) {
+          this.following_count += 1;
+        }
+      }
+      return this.following_count;
+    },
+    // calulates followed by count 
+    getFollowedByCount() {
+      for (let i = 0; i < this.following.length; i++) {
+        if (this.user === this.following[i].following) {
+          this.followed_by_count++;
+        }
+      }
+      return this.followed_by_count;
     }
   }
-  }
+}
 </script>
