@@ -25,6 +25,7 @@ defusedxml==0.7.1
 Deprecated==1.2.13
 Django==4.0.2
 django-cors-headers==3.11.0
+django-extensions==3.1.5
 django-templated-mail==1.1.1
 djangorestframework==3.13.1
 djangorestframework-simplejwt==4.8.0
@@ -48,6 +49,7 @@ prompt-toolkit==3.0.28
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
+pygraphviz==1.9
 PyJWT==2.3.0
 pyOpenSSL==22.0.0
 pyparsing==3.0.7
